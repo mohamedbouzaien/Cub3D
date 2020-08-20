@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:10:46 by mbouzaie          #+#    #+#             */
-/*   Updated: 2020/08/20 16:46:45 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2020/08/20 20:51:18 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,22 @@ typedef struct s_mlx
     t_img   img;
 }               t_mlx;
 
+typedef struct	s_vector
+{
+	double	x;
+	double	y;
+}				t_vector;
+
+typedef struct s_params
+{
+	t_vector	pos;
+	t_vector	dir;
+	t_vector	plane;
+	t_vector	raydir;
+	t_vector	sidedist;
+	t_vector	deltadist;
+}				t_params;
+
 
 void    ft_putchar(char c)
 {
@@ -39,7 +55,7 @@ void    ft_putchar(char c)
 
 int     deal_key(int key, void *param)
 {
-    printf("%d\n", key);
+    
     return(0);
 }
 
@@ -78,27 +94,13 @@ int worldMap[mapWidth][mapHeight]=
 
 int     main()
 {
-    void    *mlx_ptr;
-    void    *win_ptr;
-    double  posx;
-    double  posy;
-    double  dirx;
-    double  diry;
-    double  planex;
-    double  planey;
     double  time;
     double  oldTime;
 	int     count_w;
 	int     count_h;
 	double	cameraX;
-	double	rayDirX;
-	double	rayDirY;
 	int		mapX;
 	int		mapY;
-	double	sideDistX;
-	double	sideDistY;
-	double	deltaDistX;
-	double	deltaDistY;
 	double	perpWallDist;
 	int		stepX;
 	int		stepY;
@@ -109,62 +111,63 @@ int     main()
 	int		drawEnd;
 	int		color;
     t_mlx   mlx;
+	t_params	params;
 
     mlx.mlx_ptr = mlx_init();
     mlx.win = mlx_new_window(mlx.mlx_ptr, screenWidth, screenHeight, "Wolfstein3D");
     mlx.img.img_ptr = mlx_new_image(mlx.mlx_ptr, screenWidth, screenHeight);
     mlx.img.data = (int *)mlx_get_data_addr(mlx.img.img_ptr, &mlx.img.bpp, &mlx.img.size_l,
                     &mlx.img.endian);
-    posx = 30;
-    posy = 22;
-    dirx = -1;
-    diry = 0;
-    planex = 0;
-    planey = 0.66;
+    params.pos.x = 22;
+    params.pos.y = 12;
+    params.dir.x = -1;
+    params.dir.y = 0;
+    params.plane.x = 0;
+    params.plane.y = 0.66;
     time = 0;
     oldTime = 0;
 	count_w = -1;
     while (++count_w < screenWidth)
 	{
 		cameraX = 2 * count_w / (double)screenWidth - 1;
-		rayDirX = dirx + planex *cameraX;
-		rayDirY = diry + planey * cameraX;
-		mapX = (int)posx;
-		mapY = (int)posy;
-		deltaDistX = (rayDirY == 0) ? 0 : ((rayDirX == 0) ? 1 : fabs(1 / rayDirX));
-		deltaDistY = (rayDirX == 0) ? 0 : ((rayDirY == 0) ? 1 : fabs(1 / rayDirY));
+		params.raydir.x = params.dir.x + params.plane.x *cameraX;
+		params.raydir.y = params.dir.y + params.plane.y * cameraX;
+		mapX = (int)params.pos.x;
+		mapY = (int)params.pos.y;
+		params.deltadist.x = (params.raydir.y == 0) ? 0 : ((params.raydir.y == 0) ? 1 : fabs(1 / params.raydir.x));
+		params.deltadist.y = (params.raydir.x == 0) ? 0 : ((params.raydir.y == 0) ? 1 : fabs(1 / params.raydir.y));
 		hit = 0;
-		if (rayDirX < 0)
+		if (params.raydir.x< 0)
 		{
 			stepX = -1;
-			sideDistX = (posx - mapX) * deltaDistY;
+			params.sidedist.x = (params.pos.x - mapX) * params.deltadist.x;
 		}
 		else
 		{
 			stepX = 1;
-			sideDistX = (mapX + 1.0 - posx) * deltaDistX;
+			params.sidedist.x = (mapX + 1.0 - params.pos.x) * params.deltadist.x;
 		}
-		if (rayDirY < 0)
+		if (params.raydir.y < 0)
 		{
 			stepY = -1;
-			sideDistY = (posy - mapY) * deltaDistY;
+			params.sidedist.y = (params.pos.y - mapY) * params.deltadist.y;
 		}
 		else
 		{
 			stepY = 1;
-			sideDistY = (mapY + 1.0 - posy) * deltaDistY;
+			params.sidedist.y = (mapY + 1.0 - params.pos.y ) * params.deltadist.y;
 		}
 		while (hit == 0)
 		{
-			if (sideDistX < sideDistY)
+			if (params.sidedist.x < params.sidedist.y)
 			{
-				sideDistX += deltaDistY;
+				params.sidedist.x += params.deltadist.x;
 				mapX += stepX;
 				side = 0;
 			}
 			else
 			{
-				sideDistY +=deltaDistY;
+				params.sidedist.y += params.deltadist.y;
 				mapY += stepY;
 				side = 1;
 			}
@@ -172,9 +175,9 @@ int     main()
 				hit = 1;
 		}
 		if (side == 0)
-			perpWallDist = (mapX - posx + (1 - stepX) / 2) / rayDirX;
+			perpWallDist = (mapX - params.pos.x + (1 - stepX) / 2) / params.raydir.x;
 		else
-			perpWallDist = (mapY - posy + (1 - stepY) / 2) / rayDirY;
+			perpWallDist = (mapY - params.pos.x + (1 - stepY) / 2) / params.raydir.y;
 		lineHeight = (int) (screenHeight / perpWallDist);
 		drawStart = -lineHeight / 2 + screenHeight / 2;
 		if (drawStart < 0)
