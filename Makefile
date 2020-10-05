@@ -6,7 +6,7 @@
 #    By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/12 23:24:12 by mbouzaie          #+#    #+#              #
-#    Updated: 2020/10/05 11:41:24 by mbouzaie         ###   ########.fr        #
+#    Updated: 2020/10/05 18:47:04 by mbouzaie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,7 +72,7 @@ clean:
 				@echo object files cleaned
 
 fclean:			clean
-				$(RM) $(NAME) $(MLX)
+				$(RM) $(NAME) $(MLX) $(GAME_NAME)
 				@make -C $(LIB_DIR) fclean
 				@echo cleaned $(NAME) and object files
 

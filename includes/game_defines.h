@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 12:03:20 by mbouzaie          #+#    #+#             */
-/*   Updated: 2020/10/05 11:40:29 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2020/10/05 18:43:55 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,12 @@ typedef struct	s_img
 	void		*img_ptr;
 }				t_img;
 
+typedef struct	s_line
+{
+	int			start;
+	int			end;
+}				t_line;
+
 typedef struct	s_mapvector
 {
 	int			x;
@@ -58,6 +64,7 @@ typedef struct	s_params
 	t_vector	sidedist;
 	t_vector	deltadist;
 	t_mapvector	posmap;
+	t_mapvector	step;
 }				t_params;
 
 typedef struct	s_mlx
@@ -69,14 +76,15 @@ typedef struct	s_mlx
 }				t_mlx;
 
 t_mapvector	calculate_step_sidedist(t_params *params);
-int			digital_differential_alg(t_params *params, t_mapvector step);
+int			digital_differential_alg(t_params *params);
 int			close_event(void *param);
 int			deal_key(int key, void *param);
 int			main_loop(t_mlx *mlx);
 void		rotate(t_params *params, double degree);
 void		walk(t_params *params, double step);
 int			color_walls(t_params params, int side);
-
+void		calculate_params(t_params *params, int count_w);
+t_line		calculate_line_area(t_params *params, int side);
 int worldMap[mapWidth][mapHeight];
 
 #endif
