@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 16:32:59 by mbouzaie          #+#    #+#             */
-/*   Updated: 2020/10/05 18:40:52 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2020/10/07 19:13:33 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,38 +35,35 @@ void		calculate_params(t_params *params, int count_w)
 		params->deltadist.y = fabs(1 / params->raydir.y);
 }
 
-t_mapvector	calculate_step_sidedist(t_params *params)
+void	calculate_step_sidedist(t_params *params)
 {
-	t_mapvector step;
-
 	if (params->raydir.x < 0)
 	{
-		step.x = -1;
+		params->step.x = -1;
 		params->sidedist.x = (params->pos.x - params->posmap.x) \
 								* params->deltadist.x;
 	}
 	else
 	{
-		step.x = 1;
+		params->step.x = 1;
 		params->sidedist.x = (params->posmap.x + 1.0 - params->pos.x) \
 							* params->deltadist.x;
 	}
 	if (params->raydir.y < 0)
 	{
-		step.y = -1;
+		params->step.y = -1;
 		params->sidedist.y = (params->pos.y - params->posmap.y) \
 							* params->deltadist.y;
 	}
 	else
 	{
-		step.y = 1;
+		params->step.y = 1;
 		params->sidedist.y = (params->posmap.y + 1.0 - params->pos.y) \
 							* params->deltadist.y;
 	}
-	return (step);
 }
 
-int			digital_differential_alg(t_params *params)
+int		digital_differential_alg(t_params *params)
 {
 	int hit;
 	int side;
@@ -92,21 +89,19 @@ int			digital_differential_alg(t_params *params)
 	return (side);
 }
 
-t_line	calculate_line_area(t_params *params, int side)
+t_line	calculate_stripe_borders(t_params *params, int side)
 {
-	int		lineHeight;
 	t_line	line;
-	double	perpWallDist;
 
 	if (side == 0)
-		perpWallDist = (params->posmap.x - params->pos.x + (1 - params->step.x) / 2) / params->raydir.x;
+		params->perpWallDist = (params->posmap.x - params->pos.x + (1 - params->step.x) / 2) / params->raydir.x;
 	else
-		perpWallDist = (params->posmap.y - params->pos.y + (1 - params->step.y) / 2) / params->raydir.y;
-	lineHeight = (int) (screenHeight / perpWallDist);
-	line.start = -lineHeight / 2 + screenHeight / 2;
+		params->perpWallDist = (params->posmap.y - params->pos.y + (1 - params->step.y) / 2) / params->raydir.y;
+	params->lineHeight = (int) (screenHeight / params->perpWallDist);
+	line.start = -params->lineHeight / 2 + screenHeight / 2;
 	if (line.start < 0)
 		line.start = 0;
-	line.end = lineHeight / 2 + screenHeight / 2;
+	line.end = params->lineHeight / 2 + screenHeight / 2;
 	if (line.end >= screenHeight)
 		line.end = screenHeight - 1;
 	return (line);
