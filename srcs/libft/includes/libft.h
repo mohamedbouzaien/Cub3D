@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/03 14:55:29 by mbouzaie          #+#    #+#             */
-/*   Updated: 2020/05/12 18:20:53 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2020/10/11 15:25:16 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,16 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdint.h>
-# include <string.h>
+# include <fcntl.h>
+# include <limits.h>
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 7
+# endif
+
+# ifndef OPEN_MAX
+#  define OPEN_MAX 256
+# endif 
 
 typedef	struct		s_list
 {
@@ -82,7 +91,9 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *), \
 								void (*del)(void *));
 int					ft_lstsize(t_list *lst);
 t_list				*ft_lstlast(t_list *lst);
-char				*ft_strnjoin(const char *s1, const char *s2, size_t len);
-int					ft_chrloc(char *str, int ch);
+char				*ft_strnjoin(const char *s1, const char *s2, int len);
+int					ft_chrloc(const char *str, int ch);
 char				*ft_uitoa(uintmax_t n, unsigned int base);
+char				*ft_strncpy(char *dst, const char *src, size_t len);
+int					ft_get_next_line(const int fd, char **line);
 #endif

@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:10:46 by mbouzaie          #+#    #+#             */
-/*   Updated: 2020/10/08 00:44:12 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2020/10/10 18:27:40 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int     main()
 	mlx.img.img_ptr = mlx_new_image(mlx.mlx_ptr, screenWidth, screenHeight);
 	mlx.img.data = (int *)mlx_get_data_addr(mlx.img.img_ptr, &mlx.img.bpp, &mlx.img.size_l,&mlx.img.endian);
 	mlx.params = init_params();
-	mlx.tex = load_texture(mlx);
+	mlx.tex[0] = load_texture(mlx);
 	mlx_hook(mlx.win, 2, 1L << 0, deal_key, &mlx.params);
 	mlx_loop_hook(mlx.mlx_ptr, &main_loop, &mlx);
 	mlx_hook(mlx.win, 17, 1L << 17, close_event, &mlx);

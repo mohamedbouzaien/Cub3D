@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_chrloc.c                                        :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/09 00:03:44 by mbouzaie          #+#    #+#             */
-/*   Updated: 2020/10/11 15:09:58 by mbouzaie         ###   ########.fr       */
+/*   Created: 2020/10/11 14:32:35 by mbouzaie          #+#    #+#             */
+/*   Updated: 2020/10/11 14:34:43 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/libft.h"
 
-int	ft_chrloc(const char *str, int ch)
+char	*ft_strncpy(char *dst, const char *src, size_t len)
 {
-	size_t		length;
+	size_t i;
 
-	length = 0;
-	if (str)
-		while (str[length] != ch && str[length] != '\0')
-			length++;
-	if (length == 0 && str[0] != ch)
-		return (-1);
-	return (length);
+	i = 0;
+	while (src[i] != '\0' && i < len)
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	while (i < len)
+	{
+		dst[i] = '\0';
+		i++;
+	}
+	return (dst);
 }

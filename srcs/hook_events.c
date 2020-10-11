@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/05 10:37:54 by mbouzaie          #+#    #+#             */
-/*   Updated: 2020/10/08 19:07:37 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2020/10/10 18:30:52 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,22 +67,22 @@ int		main_loop(t_mlx *mlx)
 		else
 			wallX = params.pos.x + params.perpWallDist * params.raydir.x;
 		wallX -= floor(wallX);
-		texPos.x = (int)(wallX * (double)mlx->tex.width);
+		texPos.x = (int)(wallX * (double)mlx->tex[0].width);
 		if (side == 0 && params.raydir.x > 0)
-			texPos.x = mlx->tex.width - texPos.x - 1;
+			texPos.x = mlx->tex[0].width - texPos.x - 1;
 		if (side == 1 && params.raydir.y < 0)
-			texPos.x= mlx->tex.width - texPos.x - 1;
-		step = 1.0 * mlx->tex.height / params.lineHeight;
+			texPos.x= mlx->tex[0].width - texPos.x - 1;
+		step = 1.0 * mlx->tex[0].height / params.lineHeight;
 		texPosd = (line.start - count_h / 2 + params.lineHeight / 2) * step;
-		color = color_walls(params, side);
+		//color = color_walls(params, side);
 		while (++count_h < screenHeight)
 			if (count_h < line.start || count_h > line.end)
                 mlx->img.data[count_h * screenWidth + count_w] = 0x0;
             else
 			{
-				texPos.y = (int)texPosd & (mlx->tex.height - 1);
+				texPos.y = (int)texPosd & (mlx->tex[0].height - 1);
 				texPosd += step;
-                mlx->img.data[count_h * screenWidth + count_w] = color; // get_pixel_color(mlx->tex, texPos);
+                mlx->img.data[count_h * screenWidth + count_w] = get_pixel_color(mlx->tex[0], texPos);
 			}
 	}
 	mlx->params = params;

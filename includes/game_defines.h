@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 12:03:20 by mbouzaie          #+#    #+#             */
-/*   Updated: 2020/10/08 00:40:42 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2020/10/10 18:27:01 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ typedef struct	s_mlx
 	void		*mlx_ptr;
 	void		*win;
 	t_img		img;
-	t_tex		tex;
+	t_tex		tex[3];
 	t_params	params;
 }				t_mlx;
 
