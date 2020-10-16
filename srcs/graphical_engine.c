@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 16:32:59 by mbouzaie          #+#    #+#             */
-/*   Updated: 2020/10/07 19:13:33 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2020/10/16 13:45:26 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,11 @@ void	calculate_step_sidedist(t_params *params)
 	}
 }
 
-int		digital_differential_alg(t_params *params)
+int		digital_differential_alg(t_params *params, t_list *map)
 {
 	int hit;
 	int side;
+	char	*map_line;
 
 	hit = 0;
 	while (hit == 0)
@@ -83,7 +84,8 @@ int		digital_differential_alg(t_params *params)
 			params->posmap.y += params->step.y;
 			side = 1;
 		}
-		if (worldMap[params->posmap.x][params->posmap.y] > 0)
+		map_line = (char *)ft_lstfind_index(map, params->posmap.x)->content;
+		if (map_line[params->posmap.y] != '0')
 			hit = 1;
 	}
 	return (side);

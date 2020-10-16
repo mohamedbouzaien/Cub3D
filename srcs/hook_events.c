@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/05 10:37:54 by mbouzaie          #+#    #+#             */
-/*   Updated: 2020/10/10 18:30:52 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2020/10/16 17:30:03 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,17 @@ int		close_event(void *param)
 
 int		deal_key(int key, void *param)
 {
-	t_params	*params;
+	t_mlx	*mlx;
 
-	params = (t_params *)param;
+	mlx = (t_mlx *)param;
 	if (key == KEY_RIGHT)
-		rotate(params, -0.33);
+		rotate(&mlx->params, -0.33);
 	if (key == KEY_LEFT)
-		rotate(params, 0.33);
+		rotate(&mlx->params, 0.33);
 	if (key == KEY_UP)
-		walk(params, 1);
+		walk(&mlx->params, 1, mlx->map);
 	if (key == KEY_DOWN)
-		walk(params, -1);
+		walk(&mlx->params, -1, mlx->map);
 	return (0);
 }
 
@@ -59,7 +59,7 @@ int		main_loop(t_mlx *mlx)
 	{
 		calculate_params(&params, count_w);
 		calculate_step_sidedist(&params);
-		side = digital_differential_alg(&params);
+		side = digital_differential_alg(&params, mlx->map);
 		line = calculate_stripe_borders(&params, side);
 		count_h = -1;
 		if (side == 0)

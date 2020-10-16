@@ -6,7 +6,7 @@
 #    By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/12 23:24:12 by mbouzaie          #+#    #+#              #
-#    Updated: 2020/10/07 18:20:27 by mbouzaie         ###   ########.fr        #
+#    Updated: 2020/10/14 15:27:54 by mbouzaie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,8 @@ MLX_DIR			= mlx/
 LIBS_DIR		= -L. -L$(LIB_DIR) -L$(MLX_DIR)
 
 
-SRCS			= main.c graphical_engine.c camera_moves.c graphical_engine.c \
-					hook_events.c textures.c
+SRCS			= main.c camera_moves.c graphical_engine.c \
+					hook_events.c textures.c map_parsing.c 
 CFIND			= $(SRCS:%=$(SRC_DIR)%)
 OFILE			= $(SRCS:%.c=%.o)
 OBJS			= $(addprefix $(OBJ_DIR), $(OFILE))
@@ -49,7 +49,7 @@ $(GAME_NAME) : $(NAME)
 				@$(CC) $(CFLAGS) $(GAME_NAME) $(LIBS_DIR) -lcub3d $(LIBS)
 
 $(NAME):		$(MLX) $(OBJS)
-				@make -C $(LIB_DIR)
+				@make -C $(LIB_DIR) bonus
 				@cp $(LIB_DIR)$(LIBFT_A) .
 				@mv $(LIBFT_A) $(NAME)
 				@ar rc $(NAME) $(addprefix $(OBJ_DIR), $(OFILE))

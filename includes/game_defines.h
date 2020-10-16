@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 12:03:20 by mbouzaie          #+#    #+#             */
-/*   Updated: 2020/10/10 18:27:01 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2020/10/16 15:06:52 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <math.h>
 # include <stdio.h>
 # include "mlx.h"
+# include "libft.h"
 
 # define mapWidth		24
 # define mapHeight		24
@@ -88,20 +89,20 @@ typedef struct	s_mlx
 	t_img		img;
 	t_tex		tex[3];
 	t_params	params;
+	t_list		*map;
 }				t_mlx;
 
 void		calculate_step_sidedist(t_params *params);
-int			digital_differential_alg(t_params *params);
+int			digital_differential_alg(t_params *params, t_list *map);
 int			close_event(void *param);
 int			deal_key(int key, void *param);
 int			main_loop(t_mlx *mlx);
 void		rotate(t_params *params, double degree);
-void		walk(t_params *params, double step);
-int			color_walls(t_params params, int side);
+void		walk(t_params *params, double step, t_list *map);
 void		calculate_params(t_params *params, int count_w);
 t_line		calculate_stripe_borders(t_params *params, int side);
 int			get_pixel_color(t_tex tex, t_mapvector pos);
 t_tex		load_texture(t_mlx mlx);
-int worldMap[mapWidth][mapHeight];
+t_list		*read_map(char * file_path);
 
 #endif

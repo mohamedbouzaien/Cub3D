@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/05 11:23:37 by mbouzaie          #+#    #+#             */
-/*   Updated: 2020/10/05 11:24:35 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2020/10/16 17:37:17 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,14 @@ void	rotate(t_params *params, double degree)
 	params->plane.y = oldPlaneX * sinf(degree) + params->plane.y * cosf(degree);
 }
 
-void	walk(t_params *params, double step)
+void	walk(t_params *params, double step, t_list *map)
 {
-		if (worldMap[(int)(params->pos.x + params->dir.x * step)][(int)params->pos.y] == 0)
-			params->pos.x += params->dir.x * step;
-		if (worldMap[(int)params->pos.x][(int)(params->pos.y + params->dir.y * step)] == 0)
-			params->pos.y += params->dir.y * step;
+	char	*map_line;
+
+	map_line = (char *)ft_lstfind_index(map, (int)(params->pos.x + params->dir.x * step))->content;
+	if (map_line[(int)params->pos.y] == '0')
+		params->pos.x += params->dir.x * step;
+	map_line = (char *)ft_lstfind_index(map, (int)params->pos.x)->content;
+	if (map_line[(int)(params->pos.y + params->dir.y * step)] == '0')
+		params->pos.y += params->dir.y * step;
 }
