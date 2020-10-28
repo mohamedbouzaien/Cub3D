@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 17:23:50 by mbouzaie          #+#    #+#             */
-/*   Updated: 2020/10/08 00:40:34 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2020/10/28 13:55:01 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_tex	load_texture(t_mlx mlx)
 	return (tex);
 }
 
-int		get_pixel_color(t_tex tex, t_mapvector pos)
+int		get_pixel_color(t_tex tex, t_intvector pos)
 {
 	if (pos.x >= 0 && pos.x < tex.width && pos.y >= 0 && pos.y < tex.height)
 	{

@@ -6,7 +6,7 @@
 #    By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/12 23:24:12 by mbouzaie          #+#    #+#              #
-#    Updated: 2020/10/14 15:27:54 by mbouzaie         ###   ########.fr        #
+#    Updated: 2020/10/26 20:45:03 by mbouzaie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ OBJS			= $(addprefix $(OBJ_DIR), $(OFILE))
 
 CC				= gcc
 RM				= rm -f
-CFLAGS			= -o #-O3 -Wall -Wextra -Werror#
+CFLAGS			= -g -o #-O3 -Wall -Wextra -Werror#
 				 
 LIBS			= $(CUB3D_H) $(LIBFT_H) -lmlx -lXext -lX11 -lm -lbsd
 MLX				= libmlx.a

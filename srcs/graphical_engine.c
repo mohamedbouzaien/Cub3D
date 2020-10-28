@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 16:32:59 by mbouzaie          #+#    #+#             */
-/*   Updated: 2020/10/16 13:45:26 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2020/10/28 14:32:01 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void		calculate_params(t_params *params, int count_w)
 {
 	double	camera_x;
 
-	camera_x = 2 * count_w / (double)screenWidth - 1;
+	camera_x = 2 * count_w / (double)params->resolution.x - 1;
 	params->raydir.x = params->dir.x + params->plane.x * camera_x;
 	params->raydir.y = params->dir.y + params->plane.y * camera_x;
 	params->posmap.x = (int)params->pos.x;
@@ -99,12 +99,12 @@ t_line	calculate_stripe_borders(t_params *params, int side)
 		params->perpWallDist = (params->posmap.x - params->pos.x + (1 - params->step.x) / 2) / params->raydir.x;
 	else
 		params->perpWallDist = (params->posmap.y - params->pos.y + (1 - params->step.y) / 2) / params->raydir.y;
-	params->lineHeight = (int) (screenHeight / params->perpWallDist);
-	line.start = -params->lineHeight / 2 + screenHeight / 2;
+	params->lineHeight = (int) (params->resolution.y / params->perpWallDist);
+	line.start = -params->lineHeight / 2 + params->resolution.y / 2;
 	if (line.start < 0)
 		line.start = 0;
-	line.end = params->lineHeight / 2 + screenHeight / 2;
-	if (line.end >= screenHeight)
-		line.end = screenHeight - 1;
+	line.end = params->lineHeight / 2 + params->resolution.y / 2;
+	if (line.end >= params->resolution.y)
+		line.end = params->resolution.y - 1;
 	return (line);
 }

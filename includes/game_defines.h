@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 12:03:20 by mbouzaie          #+#    #+#             */
-/*   Updated: 2020/10/16 15:06:52 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2020/10/28 14:37:09 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,16 @@
 
 # define mapWidth		24
 # define mapHeight		24
-# define screenWidth	640
-# define screenHeight	480
 
 # define KEY_LEFT		65361
 # define KEY_RIGHT		65363
 # define KEY_DOWN		65364
 # define KEY_UP			65362
+
+# define NORTH			1
+# define SOUTH			2
+# define WEST			3
+# define EAST			4
 
 typedef struct	s_img
 {
@@ -56,11 +59,11 @@ typedef struct	s_line
 	int			end;
 }				t_line;
 
-typedef struct	s_mapvector
+typedef struct	s_intvector
 {
 	int			x;
 	int			y;
-}				t_mapvector;
+}				t_intvector;
 
 typedef struct	s_vector
 {
@@ -76,8 +79,9 @@ typedef struct	s_params
 	t_vector	raydir;
 	t_vector	sidedist;
 	t_vector	deltadist;
-	t_mapvector	posmap;
-	t_mapvector	step;
+	t_intvector	posmap;
+	t_intvector	step;
+	t_intvector	resolution;
 	double		perpWallDist;
 	int			lineHeight;
 }				t_params;
@@ -101,8 +105,9 @@ void		rotate(t_params *params, double degree);
 void		walk(t_params *params, double step, t_list *map);
 void		calculate_params(t_params *params, int count_w);
 t_line		calculate_stripe_borders(t_params *params, int side);
-int			get_pixel_color(t_tex tex, t_mapvector pos);
+int			get_pixel_color(t_tex tex, t_intvector pos);
 t_tex		load_texture(t_mlx mlx);
-t_list		*read_map(char * file_path);
+void		parse_cub(char *file_path, t_mlx *mlx);
+void		throw_error(char *msg);
 
 #endif

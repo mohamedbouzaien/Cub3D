@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/05 10:37:54 by mbouzaie          #+#    #+#             */
-/*   Updated: 2020/10/16 17:30:03 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2020/10/28 14:36:57 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ int		deal_key(int key, void *param)
 	return (0);
 }
 
+int		createRGB(int r, int g, int b)
+{   
+    return ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
+}
+
 int		main_loop(t_mlx *mlx)
 {
 	int			count_w;
@@ -49,13 +54,13 @@ int		main_loop(t_mlx *mlx)
 	t_line		line;
 	t_params	params;
 	double		wallX;
-	t_mapvector	texPos;
+	t_intvector	texPos;
 	double		step;
 	double		texPosd;
 
 	count_w = -1;
 	params = mlx->params;
-    while (++count_w < screenWidth)
+    while (++count_w < params.resolution.x)
 	{
 		calculate_params(&params, count_w);
 		calculate_step_sidedist(&params);
@@ -75,14 +80,14 @@ int		main_loop(t_mlx *mlx)
 		step = 1.0 * mlx->tex[0].height / params.lineHeight;
 		texPosd = (line.start - count_h / 2 + params.lineHeight / 2) * step;
 		//color = color_walls(params, side);
-		while (++count_h < screenHeight)
+		while (++count_h < params.resolution.y)
 			if (count_h < line.start || count_h > line.end)
-                mlx->img.data[count_h * screenWidth + count_w] = 0x0;
+                mlx->img.data[count_h * params.resolution.x + count_w] = createRGB(220, 100, 100);
             else
 			{
 				texPos.y = (int)texPosd & (mlx->tex[0].height - 1);
 				texPosd += step;
-                mlx->img.data[count_h * screenWidth + count_w] = get_pixel_color(mlx->tex[0], texPos);
+                mlx->img.data[count_h * params.resolution.x + count_w] = get_pixel_color(mlx->tex[0], texPos);
 			}
 	}
 	mlx->params = params;
