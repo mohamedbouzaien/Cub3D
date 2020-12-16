@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/05 10:37:54 by mbouzaie          #+#    #+#             */
-/*   Updated: 2020/10/28 14:36:57 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2020/10/28 15:41:41 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int		main_loop(t_mlx *mlx)
 			texPos.x= mlx->tex[0].width - texPos.x - 1;
 		step = 1.0 * mlx->tex[0].height / params.lineHeight;
 		texPosd = (line.start - count_h / 2 + params.lineHeight / 2) * step;
-		//color = color_walls(params, side);
 		while (++count_h < params.resolution.y)
 			if (count_h < line.start || count_h > line.end)
                 mlx->img.data[count_h * params.resolution.x + count_w] = createRGB(220, 100, 100);

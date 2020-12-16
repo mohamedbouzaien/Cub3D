@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 12:03:20 by mbouzaie          #+#    #+#             */
-/*   Updated: 2020/10/28 14:37:09 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2020/10/28 17:52:32 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_tex
 	int			endian;
 	int			width;
 	int			height;
+	char		*path;
 	void		*tex_ptr;
 }				t_tex;
 
@@ -91,7 +92,7 @@ typedef struct	s_mlx
 	void		*mlx_ptr;
 	void		*win;
 	t_img		img;
-	t_tex		tex[3];
+	t_tex		tex[4];
 	t_params	params;
 	t_list		*map;
 }				t_mlx;

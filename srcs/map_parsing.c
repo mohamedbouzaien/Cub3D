@@ -6,16 +6,15 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 14:13:40 by mbouzaie          #+#    #+#             */
-/*   Updated: 2020/10/28 14:28:15 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2020/10/29 11:22:56 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/game_defines.h"
 
-
 void	ft_putstr(void* s)
 {
-	int 	len;
+	int		len;
 	char	*str;
 	char	n;
 
@@ -116,15 +115,25 @@ t_list		*read_map(int fd, char *line)
 
 t_intvector	parse_resolution(char *line)
 {
-	int			i;
 	t_intvector	res;
 	char		**line_array;
 
 	line_array = ft_split(line, ' ');
 	res.x = ft_atoi(line_array[1]);
 	res.y = ft_atoi(line_array[2]);
+	free(line_array);
 	return res;
-	
+}
+
+static	char	*parse_texture(char *line)
+{
+	char	*str;
+	char	**line_array;
+
+	line_array = ft_split(line, ' ');
+	str = ft_strdup(line_array[1]);
+	free(line_array);
+	return (str);
 }
 
 void		parse_cub(char *file_path, t_mlx *mlx)
@@ -140,7 +149,10 @@ void		parse_cub(char *file_path, t_mlx *mlx)
 			mlx->params.resolution = parse_resolution(line);
 			free(line);
 		}
+		else if (line[0] == 'N' && line[1] == 'O')
+		{
+			mlx->tex[NORTH].path = parse_texture(line);
+		}
 	}
-	
 	mlx->map = read_map(fd, line);
 }
