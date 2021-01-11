@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 16:32:59 by mbouzaie          #+#    #+#             */
-/*   Updated: 2020/10/28 14:32:01 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/11 17:27:08 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int		digital_differential_alg(t_params *params, t_list *map)
 			side = 1;
 		}
 		map_line = (char *)ft_lstfind_index(map, params->posmap.x)->content;
-		if (map_line[params->posmap.y] != '0')
+		if (map_line[params->posmap.y] != '0' && !is_direction_flag(map_line[params->posmap.y]))
 			hit = 1;
 	}
 	return (side);

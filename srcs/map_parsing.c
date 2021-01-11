@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 14:13:40 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/11 16:57:57 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/11 17:14:26 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void		check_direction_flag(char *line, t_params *params, int pos)
 		params->cardinal = is_direction_flag(line[i]);
 		if(params->cardinal != 0)
 		{
-			//params->pos.x = pos + 2;
-			//params->pos.y = i + 1;
+			params->pos.x = pos + 2;
+			params->pos.y = i + 1;
 			ft_putnbr_fd(pos, 0);
 			ft_putchar_fd(' ', 0);
 			//ft_putnbr_fd(params->pos.y, 0);
@@ -103,8 +103,8 @@ t_list		*read_map(int fd, char *line, t_mlx *mlx)
 	{
 		if (map != NULL && !check_internal_line(line, ft_lstlast(map)->content))
 			throw_error("The map content lines are incorrect");
-		//check_direction_flag(line, &mlx->params, i);
-		//i++;
+		check_direction_flag(line, &mlx->params, i);
+		i++;
 		ft_lstadd_back(&map, ft_lstnew(line));
 	}
 	if (ft_strlen(line) > 0)

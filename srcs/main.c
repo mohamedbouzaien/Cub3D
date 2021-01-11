@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:10:46 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/11 16:41:52 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/11 18:00:49 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ t_params	init_params()
 
 	params.pos.x = 10;
 	params.pos.y = 11.5;
-	params.dir.x = -1;
-	params.dir.y = 0;
-	params.plane.x = 0;
-	params.plane.y = 0.66;
+	params.dir.x = 0;
+	params.dir.y = -1;
+	params.plane.x = 0.66;
+	params.plane.y = 0;
 	params.cardinal = 0;
 	return (params);
 }
