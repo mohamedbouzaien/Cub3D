@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 14:13:40 by mbouzaie          #+#    #+#             */
-/*   Updated: 2020/10/29 11:22:56 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/11 16:57:57 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,7 @@ int			check_border_line(char *line, char *previous)
 	{
 		if ((line[i] != '1' && line[i] != ' ') 
 		|| (line[i] == ' ' && previous && (previous[i] != '1' && previous[i] != ' ')))
-		{
-			ft_putstr_fd(line + i, 0);
 			return (0);
-		}
 		i++;
 	}
 	return (1);
@@ -41,6 +38,27 @@ int			is_direction_flag(char c)
 	if (c == 'E')
 		return (EAST);
 	return (0);
+}
+
+void		check_direction_flag(char *line, t_params *params, int pos)
+{
+	int	i;
+
+	i = 0;
+	while(line[i] != '\0' && params->cardinal == 0)
+	{
+		params->cardinal = is_direction_flag(line[i]);
+		if(params->cardinal != 0)
+		{
+			//params->pos.x = pos + 2;
+			//params->pos.y = i + 1;
+			ft_putnbr_fd(pos, 0);
+			ft_putchar_fd(' ', 0);
+			//ft_putnbr_fd(params->pos.y, 0);
+			ft_putchar_fd(' ', 0);
+		}
+		i++;
+	}
 }
 
 int			check_internal_line(char *line, char *previous)
@@ -70,13 +88,13 @@ int			check_internal_line(char *line, char *previous)
 	return (1);
 }
 
-t_list		*read_map(int fd, char *line)
+t_list		*read_map(int fd, char *line, t_mlx *mlx)
 {
 	t_list	*map;
 	int		i;
 	int		dir;
 
-	i = 1;
+	i = 0;
 	map = NULL;
 	if (map == NULL && !check_border_line(line, NULL))
 		throw_error("The northern border of the map is incorrect");
@@ -85,6 +103,8 @@ t_list		*read_map(int fd, char *line)
 	{
 		if (map != NULL && !check_internal_line(line, ft_lstlast(map)->content))
 			throw_error("The map content lines are incorrect");
+		//check_direction_flag(line, &mlx->params, i);
+		//i++;
 		ft_lstadd_back(&map, ft_lstnew(line));
 	}
 	if (ft_strlen(line) > 0)
@@ -161,5 +181,5 @@ void		parse_cub(char *file_path, t_mlx *mlx)
 		
 		free(line);
 	}
-	mlx->map = read_map(fd, line);
+	mlx->map = read_map(fd, line, mlx);
 }

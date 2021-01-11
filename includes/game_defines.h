@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 12:03:20 by mbouzaie          #+#    #+#             */
-/*   Updated: 2020/10/28 17:52:32 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/11 15:37:40 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ typedef struct	s_params
 	t_intvector	resolution;
 	double		perpWallDist;
 	int			lineHeight;
+	int			cardinal;
 }				t_params;
 
 typedef struct	s_mlx

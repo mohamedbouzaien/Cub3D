@@ -6,7 +6,7 @@
 #    By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/12 23:24:12 by mbouzaie          #+#    #+#              #
-#    Updated: 2020/10/26 20:45:03 by mbouzaie         ###   ########.fr        #
+#    Updated: 2021/01/11 16:29:03 by mbouzaie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ RM				= rm -f
 CFLAGS			= -g -o #-O3 -Wall -Wextra -Werror#
 				 
 LIBS			= $(CUB3D_H) $(LIBFT_H) -Lmlx -lmlx -framework OpenGL -framework AppKit -lm #-lmlx -lXext -lX11 -lm -lbsd
-MLX				= libmlx.a
+MLX				= libmlx.dylib
 
 NAME			= libcub3d.a
 GAME_NAME		= cub3d
