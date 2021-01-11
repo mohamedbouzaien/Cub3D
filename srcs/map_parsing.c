@@ -12,22 +12,6 @@
 
 #include "../includes/game_defines.h"
 
-void	ft_putstr(void* s)
-{
-	int		len;
-	char	*str;
-	char	n;
-
-	str = (char *)s;
-	n = '\n';
-	if (str)
-	{
-		len = ft_strlen(str);
-		write(0, str, len);
-		write(0, &n, 1);
-	}
-}
-
 int			check_border_line(char *line, char *previous)
 {
 	int	i;
@@ -136,6 +120,22 @@ static	char	*parse_texture(char *line)
 	return (str);
 }
 
+static t_color	parse_color(char *line)
+{
+	t_color color;
+	char	**line_array;
+	char	**color_array;
+
+	line_array = ft_split(line, ' ');
+	color_array = ft_split(line_array[1], ',');
+	color.r = ft_atoi(color_array[0]);
+	color.g = ft_atoi(color_array[1]);
+	color.b = ft_atoi(color_array[2]);
+	free(line_array);
+	free(color_array);
+	return (color);
+}
+
 void		parse_cub(char *file_path, t_mlx *mlx)
 {
 	int		fd;
@@ -145,14 +145,21 @@ void		parse_cub(char *file_path, t_mlx *mlx)
 	while (ft_get_next_line(fd, &line) && !check_border_line(line, NULL))
 	{
 		if (line[0] == 'R' && line[1] == ' ')
-		{
 			mlx->params.resolution = parse_resolution(line);
-			free(line);
-		}
 		else if (line[0] == 'N' && line[1] == 'O')
-		{
 			mlx->tex[NORTH].path = parse_texture(line);
-		}
+		else if (line[0] == 'S' && line[1] == 'O')
+			mlx->tex[SOUTH].path = parse_texture(line);
+		else if (line[0] == 'W' && line[1] == 'E')
+			mlx->tex[WEST].path = parse_texture(line);
+		else if (line[0] == 'E' && line[1] == 'A')
+			mlx->tex[EAST].path = parse_texture(line);
+		else if (line[0] == 'F' && line[1] == ' ')
+			mlx->floor = parse_color(line);
+		else if (line[0] == 'C' && line[1] == ' ')
+			mlx->ceiling = parse_color(line);
+		
+		free(line);
 	}
 	mlx->map = read_map(fd, line);
 }

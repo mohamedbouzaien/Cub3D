@@ -22,15 +22,23 @@
 # define mapWidth		24
 # define mapHeight		24
 
-# define KEY_LEFT		65361
-# define KEY_RIGHT		65363
-# define KEY_DOWN		65364
-# define KEY_UP			65362
+# define KEY_LEFT		123//65361
+# define KEY_RIGHT		124//65363
+# define KEY_DOWN		125//65364
+# define KEY_UP			126//65362
 
 # define NORTH			1
 # define SOUTH			2
 # define WEST			3
 # define EAST			4
+
+typedef struct	s_color
+{
+	int			r;
+	int			g;
+	int			b;
+}				t_color;
+
 
 typedef struct	s_img
 {
@@ -92,7 +100,9 @@ typedef struct	s_mlx
 	void		*mlx_ptr;
 	void		*win;
 	t_img		img;
-	t_tex		tex[4];
+	t_tex		tex[5];
+	t_color		floor;
+	t_color		ceiling;
 	t_params	params;
 	t_list		*map;
 }				t_mlx;
@@ -107,7 +117,7 @@ void		walk(t_params *params, double step, t_list *map);
 void		calculate_params(t_params *params, int count_w);
 t_line		calculate_stripe_borders(t_params *params, int side);
 int			get_pixel_color(t_tex tex, t_intvector pos);
-t_tex		load_texture(t_mlx mlx);
+void		load_textures(t_mlx *mlx);
 void		parse_cub(char *file_path, t_mlx *mlx);
 void		throw_error(char *msg);
 

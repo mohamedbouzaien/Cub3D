@@ -33,7 +33,7 @@ CC				= gcc
 RM				= rm -f
 CFLAGS			= -g -o #-O3 -Wall -Wextra -Werror#
 				 
-LIBS			= $(CUB3D_H) $(LIBFT_H) -lmlx -lXext -lX11 -lm -lbsd
+LIBS			= $(CUB3D_H) $(LIBFT_H) -Lmlx -lmlx -framework OpenGL -framework AppKit -lm #-lmlx -lXext -lX11 -lm -lbsd
 MLX				= libmlx.a
 
 NAME			= libcub3d.a

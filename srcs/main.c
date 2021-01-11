@@ -39,10 +39,13 @@ int     main()
 	mlx.params = init_params();
 	parse_cub("map2.cub", &mlx);
 	mlx.mlx_ptr = mlx_init();
+	ft_putnbr_fd(mlx.floor.r, 0);
+	ft_putnbr_fd(mlx.floor.g, 0);
+	ft_putnbr_fd(mlx.floor.b, 0);
 	mlx.win = mlx_new_window(mlx.mlx_ptr, mlx.params.resolution.x, mlx.params.resolution.y, "Wolfstein3D");
 	mlx.img.img_ptr = mlx_new_image(mlx.mlx_ptr, mlx.params.resolution.x, mlx.params.resolution.y);
 	mlx.img.data = (int *)mlx_get_data_addr(mlx.img.img_ptr, &mlx.img.bpp, &mlx.img.size_l,&mlx.img.endian);
-	mlx.tex[0] = load_texture(mlx);
+	load_textures(&mlx);
 	mlx_hook(mlx.win, 2, 1L << 0, deal_key, &mlx);
 	mlx_loop_hook(mlx.mlx_ptr, &main_loop, &mlx);
 	mlx_hook(mlx.win, 17, 1L << 17, close_event, &mlx);

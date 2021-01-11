@@ -51,6 +51,7 @@ int		main_loop(t_mlx *mlx)
 	int			count_h;
 	int			side;
 	int			color;
+	int			cardinal;
 	t_line		line;
 	t_params	params;
 	double		wallX;
@@ -72,21 +73,31 @@ int		main_loop(t_mlx *mlx)
 		else
 			wallX = params.pos.x + params.perpWallDist * params.raydir.x;
 		wallX -= floor(wallX);
-		texPos.x = (int)(wallX * (double)mlx->tex[0].width);
 		if (side == 0 && params.raydir.x > 0)
-			texPos.x = mlx->tex[0].width - texPos.x - 1;
+			cardinal = SOUTH;
+		if (side == 0 && params.raydir.x < 0)
+			cardinal = NORTH;
+		if (side == 1 && params.raydir.y > 0)
+			cardinal = EAST;
 		if (side == 1 && params.raydir.y < 0)
-			texPos.x= mlx->tex[0].width - texPos.x - 1;
-		step = 1.0 * mlx->tex[0].height / params.lineHeight;
+			cardinal = WEST;
+		texPos.x = (int)(wallX * (double)mlx->tex[cardinal].width);
+		if (side == 0 && params.raydir.x > 0)
+			texPos.x = mlx->tex[cardinal].width - texPos.x - 1;
+		if (side == 1 && params.raydir.y < 0)
+			texPos.x= mlx->tex[cardinal].width - texPos.x - 1;
+		step = 1.0 * mlx->tex[cardinal].height / params.lineHeight;
 		texPosd = (line.start - count_h / 2 + params.lineHeight / 2) * step;
 		while (++count_h < params.resolution.y)
-			if (count_h < line.start || count_h > line.end)
-                mlx->img.data[count_h * params.resolution.x + count_w] = createRGB(220, 100, 100);
+			if (count_h > line.end)
+                mlx->img.data[count_h * params.resolution.x + count_w] = createRGB(mlx->floor.r, mlx->floor.g, mlx->floor.b);
+			else if (count_h < line.start)
+				mlx->img.data[count_h * params.resolution.x + count_w] = createRGB(mlx->ceiling.r, mlx->ceiling.g, mlx->ceiling.b);
             else
 			{
-				texPos.y = (int)texPosd & (mlx->tex[0].height - 1);
+				texPos.y = (int)texPosd & (mlx->tex[cardinal].height - 1);
 				texPosd += step;
-                mlx->img.data[count_h * params.resolution.x + count_w] = get_pixel_color(mlx->tex[0], texPos);
+                mlx->img.data[count_h * params.resolution.x + count_w] = get_pixel_color(mlx->tex[cardinal], texPos);
 			}
 	}
 	mlx->params = params;

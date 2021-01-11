@@ -12,12 +12,16 @@
 
 #include "../includes/game_defines.h"
 
-t_tex	load_texture(t_mlx mlx)
+void	load_textures(t_mlx *mlx)
 {
-	t_tex tex;
-	tex.data = mlx_xpm_file_to_image(mlx.mlx_ptr, "textures/wall_1.xpm", &tex.width, &tex.height);
-	tex.tex_ptr = mlx_get_data_addr(tex.data, &tex.bpp, &tex.size_l, &tex.endian);
-	return (tex);
+	int	i;
+
+	i = 0;
+	while (++i <= EAST){
+		if (mlx->tex[i].path != NULL)
+			if ((mlx->tex[i].data = mlx_xpm_file_to_image(mlx->mlx_ptr, mlx->tex[i].path, &mlx->tex[i].width, &mlx->tex[i].height)))
+				mlx->tex[i].tex_ptr = mlx_get_data_addr(mlx->tex[i].data, &mlx->tex[i].bpp, &mlx->tex[i].size_l, &mlx->tex[i].endian);
+}
 }
 
 int		get_pixel_color(t_tex tex, t_intvector pos)
