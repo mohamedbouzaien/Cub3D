@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 14:13:40 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/11 17:14:26 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/12 17:21:18 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,12 @@ int			is_direction_flag(char c)
 	return (0);
 }
 
+void		set_vector(t_vector *vector, double x, double y)
+{
+	vector->x = x;
+	vector->y = y;
+}
+
 void		check_direction_flag(char *line, t_params *params, int pos)
 {
 	int	i;
@@ -50,12 +56,27 @@ void		check_direction_flag(char *line, t_params *params, int pos)
 		params->cardinal = is_direction_flag(line[i]);
 		if(params->cardinal != 0)
 		{
-			params->pos.x = pos + 2;
-			params->pos.y = i + 1;
-			ft_putnbr_fd(pos, 0);
-			ft_putchar_fd(' ', 0);
-			//ft_putnbr_fd(params->pos.y, 0);
-			ft_putchar_fd(' ', 0);
+			set_vector(&params->pos, pos + 1.5, i + .5);
+			if (params->cardinal == NORTH)
+			{
+				set_vector(&params->dir, -1, 0);
+				set_vector(&params->plane, 0, 0.66);
+			}
+			else if (params->cardinal == SOUTH)
+			{
+				set_vector(&params->dir, 1, 0);
+				set_vector(&params->plane, 0, -0.66);
+			}
+			else if (params->cardinal == WEST)
+			{
+				set_vector(&params->dir, 0, -1);
+				set_vector(&params->plane, -0.66, 0);
+			}
+			else if (params->cardinal == EAST)
+			{
+				set_vector(&params->dir, 0, 1);
+				set_vector(&params->plane, 0.66, 0);
+			}
 		}
 		i++;
 	}

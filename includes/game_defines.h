@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 12:03:20 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/11 17:26:16 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/12 18:15:32 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,5 +122,7 @@ void		load_textures(t_mlx *mlx);
 void		parse_cub(char *file_path, t_mlx *mlx);
 void		throw_error(char *msg);
 int			is_direction_flag(char c);
+void		clear_window(t_mlx *mlx);
+void		clear_textures(t_mlx *mlx);
 
 #endif

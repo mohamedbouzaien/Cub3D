@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/05 10:37:54 by mbouzaie          #+#    #+#             */
-/*   Updated: 2020/10/28 15:41:41 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/12 18:25:34 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@ int		close_event(void *param)
 	t_mlx *mlx;
 
 	mlx = (t_mlx *)param;
-	//if (mlx->img.img_ptr)
-	//	mlx_destroy_image(mlx->mlx_ptr, mlx->img.img_ptr);
+	if (mlx->img.img_ptr)
+		mlx_destroy_image(mlx->mlx_ptr, mlx->img.img_ptr);
 	if (mlx->win)
 		mlx_destroy_window(mlx->mlx_ptr, mlx->win);
+	clear_textures(mlx);
+	exit(0);
 	return (0);
 }
 
@@ -34,7 +36,7 @@ int		deal_key(int key, void *param)
 	if (key == KEY_LEFT)
 		rotate(&mlx->params, 0.33);
 	if (key == KEY_UP)
-		walk(&mlx->params, 1, mlx->map);
+		walk(&mlx->params, 0.5, mlx->map);
 	if (key == KEY_DOWN)
 		walk(&mlx->params, -1, mlx->map);
 	return (0);
