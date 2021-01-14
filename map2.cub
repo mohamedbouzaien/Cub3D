@@ -5,6 +5,9 @@ WE textures/wall_3.xpm
 EA textures/wall_4.xpm
 F 220,100,0
 C 225,30,0
+S1 textures/sprite_1.xpm
+S2 textures/sprite_2.xpm
+S3 textures/sprite_3.xpm
     11111111111111111111111111111
     1 1 1000000002110000000000001
     11111011000001110000000000001

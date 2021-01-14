@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 17:23:50 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/12 18:14:50 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/14 14:07:28 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	load_textures(t_mlx *mlx)
 	int	i;
 
 	i = 0;
-	while (++i <= EAST){
+	while (++i <= SPRITE3){
 		if (mlx->tex[i].path != NULL)
 			if ((mlx->tex[i].data = mlx_xpm_file_to_image(mlx->mlx_ptr, mlx->tex[i].path, &mlx->tex[i].width, &mlx->tex[i].height)))
 				mlx->tex[i].tex_ptr = mlx_get_data_addr(mlx->tex[i].data, &mlx->tex[i].bpp, &mlx->tex[i].size_l, &mlx->tex[i].endian);
@@ -39,7 +39,7 @@ void	clear_textures(t_mlx *mlx)
 	int	i;
 
 	i = 0;
-	while (++i <= EAST)
+	while (++i <= SPRITE3)
 	{
 		mlx_destroy_image(mlx->mlx_ptr, mlx->tex[i].data);
 		mlx->tex[i].data = NULL;

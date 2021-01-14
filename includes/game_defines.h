@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 12:03:20 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/12 18:15:32 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/14 18:49:06 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@
 # define SOUTH			2
 # define WEST			3
 # define EAST			4
+# define SPRITE1		5
+# define SPRITE2		6
+# define SPRITE3		7
 
 typedef struct	s_color
 {
@@ -101,7 +104,7 @@ typedef struct	s_mlx
 	void		*mlx_ptr;
 	void		*win;
 	t_img		img;
-	t_tex		tex[5];
+	t_tex		tex[8];
 	t_color		floor;
 	t_color		ceiling;
 	t_params	params;
@@ -124,5 +127,7 @@ void		throw_error(char *msg);
 int			is_direction_flag(char c);
 void		clear_window(t_mlx *mlx);
 void		clear_textures(t_mlx *mlx);
+void		set_vector(t_vector *vector, double x, double y);
+t_list		*get_stripes_coords(t_list *map);
 
 #endif

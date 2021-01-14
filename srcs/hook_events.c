@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/05 10:37:54 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/13 18:59:24 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/14 18:58:53 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,30 +55,30 @@ int		createRGB(int r, int g, int b)
 	}	Sprite;
 	Sprite sprite[19] =
 	{
-	{20.5, 11.5, 10}, //green light in front of playerstart
+	{20.5, 11.5, 7}, //green light in front of playerstart
 	//green lights in every room
-	{18.5,4.5, 10},
-	{10.0,4.5, 10},
-	{10.0,12.5,10},
-	{3.5, 6.5, 10},
-	{3.5, 20.5,10},
-	{3.5, 14.5,10},
-	{14.5,20.5,10},
+	{18.5,4.5, 7},
+	{10.0,4.5, 7},
+	{10.0,12.5,7},
+	{3.5, 6.5, 7},
+	{3.5, 20.5,7},
+	{3.5, 14.5,7},
+	{14.5,20.5,7},
 
 	//row of pillars in front of wall: fisheye test
-	{18.5, 10.5, 9},
-	{18.5, 11.5, 9},
-	{18.5, 12.5, 9},
+	{18.5, 10.5, 6},
+	{18.5, 11.5, 6},
+	{18.5, 12.5, 6},
 
 	//some barrels around the map
-	{21.5, 1.5, 8},
-	{15.5, 1.5, 8},
-	{16.0, 1.8, 8},
-	{16.2, 1.2, 8},
-	{3.5,  2.5, 8},
-	{9.5, 15.5, 8},
-	{10.0, 15.1,8},
-	{10.5, 15.8,8},
+	{21.5, 1.5, 5},
+	{15.5, 1.5, 5},
+	{16.0, 1.8, 5},
+	{16.2, 1.2, 5},
+	{3.5,  2.5, 5},
+	{9.5, 15.5, 5},
+	{10.0, 15.1,5},
+	{10.5, 15.8,5},
 	};
 typedef struct		s_pair
 {
@@ -115,6 +115,36 @@ void	sort_sprites(int *order, double *dist, int amount)
 	}
 }
 
+t_list	*get_stripes_coords(t_list *map)
+{
+	int			i;
+	int			j;
+	char		*mapline;
+	t_list		*stripes;
+	t_intvector	*stripe;
+
+	i = 0;
+	while (map != NULL)
+	{
+		j= 0;
+		mapline = (char *)map->content;
+		while (mapline[j] != '\0')
+			{
+				if (mapline[stripe->y] == '2')
+				{
+					stripe = (t_intvector *)malloc(sizeof(t_intvector) + 1);
+					stripe->x = i;
+					stripe->y = j;
+					ft_lstadd_back(&stripes, ft_lstnew(stripe));
+				}
+				j++;
+			}
+		i++;
+		map = map->next;
+	}
+	return (stripes);
+}
+
 int		main_loop(t_mlx *mlx)
 {
 	int			count_w;
@@ -145,6 +175,7 @@ int		main_loop(t_mlx *mlx)
 	int			drawStartX;
 	int			drawEndY;
 	int			drawEndX;
+	int			d;
 
 	count_w = -1;
 	params = mlx->params;
@@ -220,7 +251,24 @@ int		main_loop(t_mlx *mlx)
 		drawEndX = spriteWidth / 2 + spriteScreenX;
 		if (drawEndX >= params.resolution.x)
 			drawEndX = params.resolution.x - 1;
-		
+		count_w = drawStartX - 1;
+		while (++count_w < drawEndX)
+		{
+			texPos.x = (int)((256 * (count_w - (-spriteWidth / 2 + spriteScreenX)) * mlx->tex[sprite[spriteOrder[i]].texture].width / spriteWidth) / 256);
+			if (transformY > 0 && count_w > 0 && count_w < params.resolution.x && transformY < zbuffer[count_w])
+			{
+				count_h = drawStartY - 1;
+				while (++count_h < drawEndY)
+				{
+					d = (count_h - vMoveScreen) * 256 - params.resolution.y * 128 + spriteHeight * 128;
+					texPos.y = ((d * mlx->tex[sprite[spriteOrder[i]].texture].height) / spriteHeight ) / 256;
+					color = get_pixel_color(mlx->tex[sprite[spriteOrder[i]].texture], texPos);
+					if ((color & 0x00FFFFFF) != 0)
+						mlx->img.data[count_h * params.resolution.x + count_w] = color;
+				}
+			}
+		}
+
 		i++;
 	}
 	mlx->params = params;
