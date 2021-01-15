@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/05 10:37:54 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/14 18:58:53 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/15 17:35:23 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,45 +47,6 @@ int		createRGB(int r, int g, int b)
     return ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
 }
 
-	typedef struct s_Sprite
-	{
-	double x;
-	double y;
-	int texture;
-	}	Sprite;
-	Sprite sprite[19] =
-	{
-	{20.5, 11.5, 7}, //green light in front of playerstart
-	//green lights in every room
-	{18.5,4.5, 7},
-	{10.0,4.5, 7},
-	{10.0,12.5,7},
-	{3.5, 6.5, 7},
-	{3.5, 20.5,7},
-	{3.5, 14.5,7},
-	{14.5,20.5,7},
-
-	//row of pillars in front of wall: fisheye test
-	{18.5, 10.5, 6},
-	{18.5, 11.5, 6},
-	{18.5, 12.5, 6},
-
-	//some barrels around the map
-	{21.5, 1.5, 5},
-	{15.5, 1.5, 5},
-	{16.0, 1.8, 5},
-	{16.2, 1.2, 5},
-	{3.5,  2.5, 5},
-	{9.5, 15.5, 5},
-	{10.0, 15.1,5},
-	{10.5, 15.8,5},
-	};
-typedef struct		s_pair
-{
-	double	first;
-	int		second;
-}					t_pair;
-
 void	sort_sprites(int *order, double *dist, int amount)
 {
 	int		i;
@@ -120,29 +81,30 @@ t_list	*get_stripes_coords(t_list *map)
 	int			i;
 	int			j;
 	char		*mapline;
-	t_list		*stripes;
-	t_intvector	*stripe;
+	t_list		*sprites;
+	t_intvector	*sprite;
 
 	i = 0;
+	sprites = NULL;
 	while (map != NULL)
 	{
 		j= 0;
 		mapline = (char *)map->content;
 		while (mapline[j] != '\0')
 			{
-				if (mapline[stripe->y] == '2')
+				if (mapline[j] == '2')
 				{
-					stripe = (t_intvector *)malloc(sizeof(t_intvector) + 1);
-					stripe->x = i;
-					stripe->y = j;
-					ft_lstadd_back(&stripes, ft_lstnew(stripe));
+					sprite = (t_intvector *)malloc(sizeof(t_intvector) + 1);
+					sprite->x = i;
+					sprite->y = j;
+					ft_lstadd_back(&sprites, ft_lstnew(sprite));
 				}
 				j++;
 			}
 		i++;
 		map = map->next;
 	}
-	return (stripes);
+	return (sprites);
 }
 
 int		main_loop(t_mlx *mlx)
@@ -159,9 +121,9 @@ int		main_loop(t_mlx *mlx)
 	double		step;
 	double		texPosd;
 	double		zbuffer[mlx->params.resolution.x];
-	int			spriteOrder[19];
+	int			*spriteOrder;
 	int			i;
-	double		spriteDistance[19];
+	double		*spriteDistance;
 	double		spriteX;
 	double		spriteY;
 	double		invDet;
@@ -176,6 +138,8 @@ int		main_loop(t_mlx *mlx)
 	int			drawEndY;
 	int			drawEndX;
 	int			d;
+	int			spritessize;
+	t_intvector	*sprite;
 
 	count_w = -1;
 	params = mlx->params;
@@ -220,18 +184,23 @@ int		main_loop(t_mlx *mlx)
 		zbuffer[count_w] = params.perpWallDist;
 	}
 	i = 0;
-	while (i < 19)
+	spritessize = ft_lstsize(mlx->sprites);
+	spriteOrder = (int *) malloc(sizeof(int) * spritessize + 1);
+	spriteDistance = (double *) malloc(sizeof(double) * spritessize + 1);
+	while (i < spritessize)
 	{
+		sprite = (t_intvector *)ft_lstfind_index(mlx->sprites, i);
 		spriteOrder[i] = i;
-		spriteDistance[i] = (params.pos.x - sprite[i].x) * (params.pos.x - sprite[i].x) + (params.pos.y - sprite[i].y) * (params.pos.y - sprite[i].y);
+		spriteDistance[i] = (params.pos.x - sprite->x) * (params.pos.x - sprite->x) + (params.pos.y - sprite->y) * (params.pos.y - sprite->y);
 		i++;
 	}
-	sort_sprites(spriteOrder, spriteDistance, 19);
+	sort_sprites(spriteOrder, spriteDistance, spritessize);
 	i = 0;
-	while (i < 19)
+	while (i < spritessize)
 	{
-		spriteX = sprite[spriteOrder[i]].x - params.pos.x;
-		spriteY = sprite[spriteOrder[i]].y - params.pos.y;
+		sprite = (t_intvector *)ft_lstfind_index(mlx->sprites, spriteOrder[i]);
+		spriteX = sprite->x - params.pos.x + .5;
+		spriteY = sprite->y - params.pos.y + .5;
 		invDet = 1.0 / (params.plane.x * params.dir.y - params.dir.x * params.plane.y);
 		transformX = invDet * (params.dir.y * spriteX - params.dir.x * spriteY);
 		transformY = invDet * (-params.plane.y * spriteX + params.plane.x * spriteY);
@@ -254,23 +223,25 @@ int		main_loop(t_mlx *mlx)
 		count_w = drawStartX - 1;
 		while (++count_w < drawEndX)
 		{
-			texPos.x = (int)((256 * (count_w - (-spriteWidth / 2 + spriteScreenX)) * mlx->tex[sprite[spriteOrder[i]].texture].width / spriteWidth) / 256);
+			texPos.x = (int)((256 * (count_w - (-spriteWidth / 2 + spriteScreenX)) * mlx->tex[SPRITE].width / spriteWidth) / 256);
 			if (transformY > 0 && count_w > 0 && count_w < params.resolution.x && transformY < zbuffer[count_w])
 			{
 				count_h = drawStartY - 1;
 				while (++count_h < drawEndY)
 				{
 					d = (count_h - vMoveScreen) * 256 - params.resolution.y * 128 + spriteHeight * 128;
-					texPos.y = ((d * mlx->tex[sprite[spriteOrder[i]].texture].height) / spriteHeight ) / 256;
-					color = get_pixel_color(mlx->tex[sprite[spriteOrder[i]].texture], texPos);
+					texPos.y = ((d * mlx->tex[SPRITE].height) / spriteHeight ) / 256;
+					color = get_pixel_color(mlx->tex[SPRITE], texPos);
 					if ((color & 0x00FFFFFF) != 0)
 						mlx->img.data[count_h * params.resolution.x + count_w] = color;
 				}
 			}
 		}
-
 		i++;
 	}
+	free(spriteOrder);
+	free(spriteDistance);
+	//ft_lstclear(&sprites, &free);
 	mlx->params = params;
 	mlx_put_image_to_window(mlx->mlx_ptr, mlx->win, mlx->img.img_ptr, 0, 0);
 	return (0);

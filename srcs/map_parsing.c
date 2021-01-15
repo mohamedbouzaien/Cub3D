@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 14:13:40 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/14 17:58:20 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/15 13:45:00 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,12 +199,8 @@ void		parse_cub(char *file_path, t_mlx *mlx)
 			mlx->floor = parse_color(line);
 		else if (line[0] == 'C' && line[1] == ' ')
 			mlx->ceiling = parse_color(line);
-		else if (line[0] == 'S' && line[1] == '1')
-			mlx->tex[SPRITE1].path = parse_texture(line);
-		else if (line[0] == 'S' && line[1] == '2')
-			mlx->tex[SPRITE2].path = parse_texture(line);
-		else if (line[0] == 'S' && line[1] == '3')
-			mlx->tex[SPRITE3].path = parse_texture(line);
+		else if (line[0] == 'S' && line[1] == ' ')
+			mlx->tex[SPRITE].path = parse_texture(line);
 		free(line);
 	}
 	mlx->map = read_map(fd, line, mlx);
