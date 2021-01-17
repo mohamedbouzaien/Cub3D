@@ -85,7 +85,7 @@ int		digital_differential_alg(t_params *params, t_list *map)
 			side = 1;
 		}
 		map_line = (char *)ft_lstfind_index(map, params->posmap.x)->content;
-		if (map_line[params->posmap.y] != '0' && !is_direction_flag(map_line[params->posmap.y]))
+		if (map_line[params->posmap.y] != '0' && !is_dir_flag(map_line[params->posmap.y]) && map_line[params->posmap.y] != '2')
 			hit = 1;
 	}
 	return (side);
@@ -96,14 +96,14 @@ t_line	calculate_stripe_borders(t_params *params, int side)
 	t_line	line;
 
 	if (side == 0)
-		params->perpWallDist = (params->posmap.x - params->pos.x + (1 - params->step.x) / 2) / params->raydir.x;
+		params->perpwalldist = (params->posmap.x - params->pos.x + (1 - params->step.x) / 2) / params->raydir.x;
 	else
-		params->perpWallDist = (params->posmap.y - params->pos.y + (1 - params->step.y) / 2) / params->raydir.y;
-	params->lineHeight = (int) (params->resolution.y / params->perpWallDist);
-	line.start = -params->lineHeight / 2 + params->resolution.y / 2;
+		params->perpwalldist = (params->posmap.y - params->pos.y + (1 - params->step.y) / 2) / params->raydir.y;
+	params->lineheight = (int) (params->resolution.y / params->perpwalldist);
+	line.start = -params->lineheight / 2 + params->resolution.y / 2;
 	if (line.start < 0)
 		line.start = 0;
-	line.end = params->lineHeight / 2 + params->resolution.y / 2;
+	line.end = params->lineheight / 2 + params->resolution.y / 2;
 	if (line.end >= params->resolution.y)
 		line.end = params->resolution.y - 1;
 	return (line);

@@ -25,7 +25,7 @@
 
 # ifndef OPEN_MAX
 #  define OPEN_MAX 256
-# endif 
+# endif
 
 typedef	struct		s_list
 {

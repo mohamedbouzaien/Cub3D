@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 14:13:40 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/15 13:45:00 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/17 23:10:51 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int			check_border_line(char *line, char *previous)
 	return (1);
 }
 
-int			is_direction_flag(char c)
+int			is_dir_flag(char c)
 {
 	if (c == 'N')
 		return (NORTH);
@@ -40,12 +40,6 @@ int			is_direction_flag(char c)
 	return (0);
 }
 
-void		set_vector(t_vector *vector, double x, double y)
-{
-	vector->x = x;
-	vector->y = y;
-}
-
 void		check_direction_flag(char *line, t_params *params, int pos)
 {
 	int	i;
@@ -53,7 +47,7 @@ void		check_direction_flag(char *line, t_params *params, int pos)
 	i = 0;
 	while(line[i] != '\0' && params->cardinal == 0)
 	{
-		params->cardinal = is_direction_flag(line[i]);
+		params->cardinal = is_dir_flag(line[i]);
 		if(params->cardinal != 0)
 		{
 			set_vector(&params->pos, pos + 1.5, i + .5);
@@ -96,11 +90,11 @@ int			check_internal_line(char *line, char *previous)
 		if (line[i] == ' ' && (previous[i] != ' ' && previous[i] != '1'))
 			return (0);
 		if  (line[i] == '0' && ((previous[i] != '0' && previous[i] != '1' 
-			&& previous[i] != '2' && !is_direction_flag(previous[i]))
+			&& previous[i] != '2' && !is_dir_flag(previous[i]))
 			|| (line[i + 1] != '0' && line[i + 1] != '1' && line[i + 1] != '2'
-			&& !is_direction_flag(line[i + 1]))))
+			&& !is_dir_flag(line[i + 1]))))
 				return (0);
-		if  (is_direction_flag(line[i]) && ((previous[i] != '0' 
+		if  (is_dir_flag(line[i]) && ((previous[i] != '0' 
 			&& previous[i] != '1' && previous[i] != '2')
 			|| (line[i + 1] != '0' && line[i + 1] != '1' && line[i + 1] != '2')))
 				return (0);

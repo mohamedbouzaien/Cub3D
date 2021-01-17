@@ -6,7 +6,7 @@
 #    By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/12 23:24:12 by mbouzaie          #+#    #+#              #
-#    Updated: 2021/01/11 17:08:34 by mbouzaie         ###   ########.fr        #
+#    Updated: 2021/01/17 23:31:39 by mbouzaie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ LIBS_DIR		= -L. -L$(LIB_DIR) -L$(MLX_DIR)
 
 
 SRCS			= main.c camera_moves.c graphical_engine.c \
-					hook_events.c textures.c map_parsing.c 
+					hook_events.c textures.c map_parsing.c \
+					utils.c sprite.c
 CFIND			= $(SRCS:%=$(SRC_DIR)%)
 OFILE			= $(SRCS:%.c=%.o)
 OBJS			= $(addprefix $(OBJ_DIR), $(OFILE))

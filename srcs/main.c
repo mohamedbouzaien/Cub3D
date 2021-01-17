@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:10:46 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/15 17:31:56 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/18 00:15:08 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ t_params	init_params(void)
 	return (params);
 }
 
+void		finish_init(t_params *params)
+{
+	params->zbuffer = (double *)malloc(sizeof(double) * params->resolution.x + 1);
+}
+
 void		throw_error(char *msg)
 {
 	ft_putstr_fd("Error\n", 0);
@@ -40,7 +45,8 @@ int			main(void)
 	mlx.params = init_params();
 	parse_cub("map2.cub", &mlx);
 	mlx.mlx_ptr = mlx_init();
-	mlx.sprites = get_stripes_coords(mlx.map);
+	finish_init(&mlx.params);
+	mlx.sprites = get_sprites_coords(mlx.map);
 	mlx.win = mlx_new_window(mlx.mlx_ptr, mlx.params.resolution.x,\
 	mlx.params.resolution.y, "Wolfstein3D");
 	mlx.img.img_ptr = mlx_new_image(mlx.mlx_ptr, mlx.params.resolution.x,\

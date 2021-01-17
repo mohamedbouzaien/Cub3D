@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 17:23:50 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/15 13:45:49 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/17 23:14:58 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,14 @@ void	load_textures(t_mlx *mlx)
 	int	i;
 
 	i = 0;
-	while (++i <= SPRITE){
+	while (++i <= SPRITE)
+	{
 		if (mlx->tex[i].path != NULL)
-			if ((mlx->tex[i].data = mlx_xpm_file_to_image(mlx->mlx_ptr, mlx->tex[i].path, &mlx->tex[i].width, &mlx->tex[i].height)))
-				mlx->tex[i].tex_ptr = mlx_get_data_addr(mlx->tex[i].data, &mlx->tex[i].bpp, &mlx->tex[i].size_l, &mlx->tex[i].endian);
-}
-
+			if ((mlx->tex[i].data = mlx_xpm_file_to_image(mlx->mlx_ptr,\
+			mlx->tex[i].path, &mlx->tex[i].width, &mlx->tex[i].height)))
+				mlx->tex[i].tex_ptr = mlx_get_data_addr(mlx->tex[i].data,\
+				&mlx->tex[i].bpp, &mlx->tex[i].size_l, &mlx->tex[i].endian);
+	}
 }
 
 int		get_pixel_color(t_tex tex, t_intvector pos)
