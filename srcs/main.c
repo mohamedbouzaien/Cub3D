@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:10:46 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/18 00:15:08 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/18 01:00:27 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ t_params	init_params(void)
 
 void		finish_init(t_params *params)
 {
-	params->zbuffer = (double *)malloc(sizeof(double) * params->resolution.x + 1);
+	params->zbuffer = (double *)malloc(sizeof(double)\
+						* params->resolution.x + 1);
 }
 
 void		throw_error(char *msg)
