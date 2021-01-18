@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 12:03:20 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/18 00:22:53 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/18 15:26:49 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <unistd.h>
 # include <math.h>
 # include <stdio.h>
-# include "mlx.h"
+# include "../mlx/mlx.h"
 # include "libft.h"
 
 # define KEY_LEFT		123//65361
@@ -87,6 +87,19 @@ typedef struct	s_vector
 	double		y;
 }				t_vector;
 
+typedef struct	s_sprite
+{
+	int			*order;
+	int			listsize;
+	int			screenx;
+	double		*dists;
+	t_vector	transform;
+	t_vector	pos;
+	t_intvector	size;
+	t_intvector	drawstart;
+	t_intvector	drawend;
+}				t_sprite;
+
 typedef struct	s_params
 {
 	t_vector	pos;
@@ -97,7 +110,7 @@ typedef struct	s_params
 	t_vector	deltadist;
 	t_intvector	posmap;
 	t_intvector	step;
-	t_intvector	resolution;
+	t_intvector	res;
 	double		perpwalldist;
 	double		*zbuffer;
 	int			lineheight;
@@ -138,5 +151,5 @@ void			set_vector(t_vector *vector, double x, double y);
 t_list			*get_sprites_coords(t_list *map);
 void			sort_sprites(int *order, double *dist, int amount);
 int				create_rgb(int r, int g, int b);
-void			draw_sprites(t_mlx *mlx);
+void			handle_sprites(t_mlx *mlx);
 #endif

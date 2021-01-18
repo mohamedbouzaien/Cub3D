@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 14:13:40 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/17 23:10:51 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/18 14:30:45 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ void		parse_cub(char *file_path, t_mlx *mlx)
 	while (ft_get_next_line(fd, &line) && !check_border_line(line, NULL))
 	{
 		if (line[0] == 'R' && line[1] == ' ')
-			mlx->params.resolution = parse_resolution(line);
+			mlx->params.res = parse_resolution(line);
 		else if (line[0] == 'N' && line[1] == 'O')
 			mlx->tex[NORTH].path = parse_texture(line);
 		else if (line[0] == 'S' && line[1] == 'O')

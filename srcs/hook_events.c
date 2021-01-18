@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/05 10:37:54 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/18 00:23:20 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/18 14:29:04 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ int		deal_key(int key, void *param)
 
 int		main_loop(t_mlx *mlx)
 {
-	int			count_w;
-	int			count_h;
 	int			side;
 	int			color;
 	int			cardinal;
@@ -59,18 +57,19 @@ int		main_loop(t_mlx *mlx)
 	t_params	params;
 	double		wallX;
 	t_intvector	texPos;
+	t_intvector	count;
 	double		step;
 	double		texPosd;
 
-	count_w = -1;
+	count.x = -1;
 	params = mlx->params;
-    while (++count_w < params.resolution.x)
+    while (++count.x < params.res.x)
 	{
-		calculate_params(&params, count_w);
+		calculate_params(&params, count.x);
 		calculate_step_sidedist(&params);
 		side = digital_differential_alg(&params, mlx->map);
 		line = calculate_stripe_borders(&params, side);
-		count_h = -1;
+		count.y = -1;
 		if (side == 0)
 			wallX = params.pos.y + params.perpwalldist * params.raydir.y;
 		else
@@ -90,21 +89,21 @@ int		main_loop(t_mlx *mlx)
 		if (side == 1 && params.raydir.y < 0)
 			texPos.x = mlx->tex[cardinal].width - texPos.x - 1;
 		step = 1.0 * mlx->tex[cardinal].height / params.lineheight;
-		texPosd = (line.start - params.resolution.y / 2 + params.lineheight / 2) * step;
-		while (++count_h < params.resolution.y)
-			if (count_h > line.end)
-                mlx->img.data[count_h * params.resolution.x + count_w] = create_rgb(mlx->floor.r, mlx->floor.g, mlx->floor.b);
-			else if (count_h < line.start)
-				mlx->img.data[count_h * params.resolution.x + count_w] = create_rgb(mlx->ceiling.r, mlx->ceiling.g, mlx->ceiling.b);
+		texPosd = (line.start - params.res.y / 2 + params.lineheight / 2) * step;
+		while (++count.y < params.res.y)
+			if (count.y > line.end)
+                mlx->img.data[count.y * params.res.x + count.x] = create_rgb(mlx->floor.r, mlx->floor.g, mlx->floor.b);
+			else if (count.y < line.start)
+				mlx->img.data[count.y * params.res.x + count.x] = create_rgb(mlx->ceiling.r, mlx->ceiling.g, mlx->ceiling.b);
             else
 			{
 				texPos.y = (int)texPosd & (mlx->tex[cardinal].height - 1);
 				texPosd += step;
-                mlx->img.data[count_h * params.resolution.x + count_w] = get_pixel_color(mlx->tex[cardinal], texPos);
+                mlx->img.data[count.y * params.res.x + count.x] = get_pixel_color(mlx->tex[cardinal], texPos);
 			}
-		params.zbuffer[count_w] = params.perpwalldist;
+		params.zbuffer[count.x] = params.perpwalldist;
 	}
-	draw_sprites(mlx);
+	handle_sprites(mlx);
 	mlx->params = params;
 	mlx_put_image_to_window(mlx->mlx_ptr, mlx->win, mlx->img.img_ptr, 0, 0);
 	return (0);

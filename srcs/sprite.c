@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 23:28:09 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/18 00:34:13 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/18 15:27:03 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,91 +68,88 @@ t_list	*get_sprites_coords(t_list *map)
 	return (sprites);
 }
 
-void	draw_sprites(t_mlx *mlx)
+void	draw_sprites(t_mlx *mlx, t_sprite sprite)
 {
-	int			*spriteOrder;
-	int			i;
-	double		*spriteDistance;
-	double		spriteX;
-	double		spriteY;
-	double		invDet;
-	double		transformX;
-	double		transformY;
-	int			spriteScreenX;
-	int			vMoveScreen;
-	int			spriteWidth;
-	int			spriteHeight;
-	int			drawStartY;
-	int			drawStartX;
-	int			drawEndY;
-	int			drawEndX;
 	int			d;
-	int			spritessize;
-	t_intvector	*sprite;
-	t_params	params;
-	t_intvector	texPos;
-	int			color;
-	int			count_w;
-	int			count_h;
+	int			c;
+	t_intvector	count;
+	t_intvector	texpos;
 
-	params = mlx->params;
-	i = 0;
-	spritessize = ft_lstsize(mlx->sprites);
-	spriteOrder = (int *) malloc(sizeof(int) * spritessize + 1);
-	spriteDistance = (double *) malloc(sizeof(double) * spritessize + 1);
-	while (i < spritessize)
+	count.x = sprite.drawstart.x - 1;
+	while (++count.x < sprite.drawend.x)
 	{
-		sprite = (t_intvector *)ft_lstfind_index(mlx->sprites, i);
-		spriteOrder[i] = i;
-		spriteDistance[i] = (params.pos.x - sprite->x) * (params.pos.x - sprite->x) + (params.pos.y - sprite->y) * (params.pos.y - sprite->y);
-		i++;
-	}
-	sort_sprites(spriteOrder, spriteDistance, spritessize);
-	i = 0;
-	while (i < spritessize)
-	{
-		sprite = (t_intvector *)(ft_lstfind_index(mlx->sprites, spriteOrder[i])->content);
-		spriteX = sprite->x - params.pos.x + .5;
-		spriteY = sprite->y - params.pos.y + .5;
-		invDet = 1.0 / (params.plane.x * params.dir.y - params.dir.x * params.plane.y);
-		transformX = invDet * (params.dir.y * spriteX - params.dir.x * spriteY);
-		transformY = invDet * (-params.plane.y * spriteX + params.plane.x * spriteY);
-		spriteScreenX = (int)((params.resolution.x / 2) * (1 + transformX / transformY));
-		vMoveScreen = (int)(0.0 / transformY);
-		spriteHeight = (int)fabs((params.resolution.y / transformY) / 1);
-		drawStartY = -spriteHeight / 2 + params.resolution.y / 2 + vMoveScreen;
-		if (drawStartY < 0)
-			drawStartY = 0;
-		drawEndY = spriteHeight / 2 + params.resolution.y / 2 + vMoveScreen;
-		if (drawEndY >= params.resolution.y)
-			drawEndY = params.resolution.y - 1;
-		spriteWidth = (int)fabs((params.resolution.x / transformY) / 1);
-		drawStartX = -spriteWidth / 2 + spriteScreenX;
-		if (drawStartX < 0)
-			drawStartX = 0;
-		drawEndX = spriteWidth / 2 + spriteScreenX;
-		if (drawEndX >= params.resolution.x)
-			drawEndX = params.resolution.x - 1;
-		count_w = drawStartX - 1;
-		while (++count_w < drawEndX)
+		texpos.x = (int)((256 * (count.x - (-sprite.size.x / 2 +\
+			sprite.screenx)) * mlx->tex[SPRITE].width / sprite.size.x) / 256);
+		if (sprite.transform.y > 0 && count.x > 0 && count.x <\
+		mlx->params.res.x && sprite.transform.y < mlx->params.zbuffer[count.x])
 		{
-			texPos.x = (int)((256 * (count_w - (-spriteWidth / 2 + spriteScreenX)) * mlx->tex[SPRITE].width / spriteWidth) / 256);
-			if (transformY > 0 && count_w > 0 && count_w < params.resolution.x && transformY < params.zbuffer[count_w])
+			count.y = sprite.drawstart.y - 1;
+			while (++count.y < sprite.drawend.y)
 			{
-				count_h = drawStartY - 1;
-				while (++count_h < drawEndY)
-				{
-					d = (count_h - vMoveScreen) * 256 - params.resolution.y * 128 + spriteHeight * 128;
-					texPos.y = ((d * mlx->tex[SPRITE].height) / spriteHeight ) / 256;
-					color = get_pixel_color(mlx->tex[SPRITE], texPos);
-					if ((color & 0x00FFFFFF) != 0)
-						mlx->img.data[count_h * params.resolution.x + count_w] = color;
-				}
+				d = count.y * 256 - (mlx->params.res.y - sprite.size.y) * 128;
+				texpos.y = ((d * mlx->tex[SPRITE].height) / sprite.size.y)\
+					/ 256;
+				c = get_pixel_color(mlx->tex[SPRITE], texpos);
+				if ((c & 0x00FFFFFF) != 0)
+					mlx->img.data[count.y * mlx->params.res.x + count.x] = c;
 			}
 		}
-		i++;
 	}
-	free(spriteOrder);
-	free(spriteDistance);
-	//ft_lstclear(&sprites, &free);
+}
+
+void	init_draw(t_sprite *s, t_params p, t_list *sprites, int i)
+{
+	double		id;
+	t_intvector	*pos;
+
+	pos = (t_intvector *)(ft_lstfind_index(sprites, s->order[i])->content);
+	s->pos.x = pos->x - p.pos.x + .5;
+	s->pos.y = pos->y - p.pos.y + .5;
+	id = 1.0 / (p.plane.x * p.dir.y - p.dir.x * p.plane.y);
+	s->transform.x = id * (p.dir.y * s->pos.x - p.dir.x * s->pos.y);
+	s->transform.y = id * (-p.plane.y * s->pos.x + p.plane.x * s->pos.y);
+	s->screenx = (int)((p.res.x / 2) * (1 + s->transform.x / s->transform.y));
+	s->size.y = (int)fabs((p.res.y / s->transform.y) / 1);
+	s->drawstart.y = -s->size.y / 2 + p.res.y / 2;
+	if (s->drawstart.y < 0)
+		s->drawstart.y = 0;
+	s->drawend.y = s->size.y / 2 + p.res.y / 2;
+	if (s->drawend.y >= p.res.y)
+		s->drawend.y = p.res.y - 1;
+	s->size.x = (int)fabs((p.res.x / s->transform.y) / 1);
+	s->drawstart.x = -s->size.x / 2 + s->screenx;
+	if (s->drawstart.x < 0)
+		s->drawstart.x = 0;
+	s->drawend.x = s->size.x / 2 + s->screenx;
+	if (s->drawend.x >= p.res.x)
+		s->drawend.x = p.res.x - 1;
+}
+
+void	handle_sprites(t_mlx *mlx)
+{
+	int			i;
+	t_intvector	*pos;
+	t_params	p;
+	t_sprite	sprite;
+
+	p = mlx->params;
+	i = -1;
+	sprite.listsize = ft_lstsize(mlx->sprites);
+	sprite.order = (int *)malloc(sizeof(int) * sprite.listsize + 1);
+	sprite.dists = (double *)malloc(sizeof(double) * sprite.listsize + 1);
+	while (++i < sprite.listsize)
+	{
+		pos = (t_intvector *)(ft_lstfind_index(mlx->sprites, i)->content);
+		sprite.order[i] = i;
+		sprite.dists[i] = pow(p.pos.x - pos->x, 2) + pow(p.pos.y - pos->y, 2);
+	}
+	sort_sprites(sprite.order, sprite.dists, sprite.listsize);
+	i = -1;
+	while (++i < sprite.listsize)
+	{
+		init_draw(&sprite, p, mlx->sprites, i);
+		draw_sprites(mlx, sprite);
+	}
+	free(sprite.order);
+	free(sprite.dists);
 }

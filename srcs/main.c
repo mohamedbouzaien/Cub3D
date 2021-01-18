@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:10:46 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/18 01:00:27 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/18 14:28:28 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_params	init_params(void)
 void		finish_init(t_params *params)
 {
 	params->zbuffer = (double *)malloc(sizeof(double)\
-						* params->resolution.x + 1);
+						* params->res.x + 1);
 }
 
 void		throw_error(char *msg)
@@ -48,10 +48,10 @@ int			main(void)
 	mlx.mlx_ptr = mlx_init();
 	finish_init(&mlx.params);
 	mlx.sprites = get_sprites_coords(mlx.map);
-	mlx.win = mlx_new_window(mlx.mlx_ptr, mlx.params.resolution.x,\
-	mlx.params.resolution.y, "Wolfstein3D");
-	mlx.img.img_ptr = mlx_new_image(mlx.mlx_ptr, mlx.params.resolution.x,\
-	mlx.params.resolution.y);
+	mlx.win = mlx_new_window(mlx.mlx_ptr, mlx.params.res.x,\
+	mlx.params.res.y, "Wolfstein3D");
+	mlx.img.img_ptr = mlx_new_image(mlx.mlx_ptr, mlx.params.res.x,\
+	mlx.params.res.y);
 	mlx.img.data = (int *)mlx_get_data_addr(mlx.img.img_ptr, &mlx.img.bpp,\
 	&mlx.img.size_l, &mlx.img.endian);
 	load_textures(&mlx);
@@ -59,5 +59,6 @@ int			main(void)
 	mlx_loop_hook(mlx.mlx_ptr, &main_loop, &mlx);
 	mlx_hook(mlx.win, 17, 1L << 17, close_event, &mlx);
 	mlx_loop(mlx.mlx_ptr);
+	//ft_lstclear(&sprites, &free);
 	return (0);
 }
