@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/05 10:37:54 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/18 14:29:04 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/18 15:35:31 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ int		deal_key(int key, void *param)
 	if (key == KEY_LEFT)
 		rotate(&mlx->params, SPEED_ROT);
 	if (key == KEY_W)
-		walk(&mlx->params, SPEED_MOV, AXIS_PERP, mlx->map);
+		walk(&mlx->params, SPEED_MOV, AXIS_VERT, mlx->map);
 	if (key == KEY_S)
-		walk(&mlx->params, -SPEED_MOV, AXIS_PERP,mlx->map);
+		walk(&mlx->params, -SPEED_MOV, AXIS_VERT,mlx->map);
 	if (key == KEY_D)
 		walk(&mlx->params, SPEED_MOV, AXIS_HORI, mlx->map);
 	if (key == KEY_A)

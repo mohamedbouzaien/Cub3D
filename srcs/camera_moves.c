@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/05 11:23:37 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/18 14:30:32 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/18 15:36:16 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	walk(t_params *params, double step, int axis, t_list *map)
 	char	*l;
 	int		index;
 
-	if (axis == AXIS_PERP)
+	if (axis == AXIS_VERT)
 	{
 		index = (int)(params->pos.x + params->dir.x * step);
 		l = (char *)ft_lstfind_index(map, index)->content;

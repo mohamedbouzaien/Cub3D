@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 12:03:20 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/18 15:26:49 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/18 15:35:26 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # define EAST			4
 # define SPRITE			5
 
-# define AXIS_PERP		0
+# define AXIS_VERT		0
 # define AXIS_HORI		1
 
 # define SPEED_ROT		0.1
