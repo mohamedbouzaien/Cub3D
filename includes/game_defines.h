@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 12:03:20 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/18 15:35:26 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/19 15:46:30 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,4 +152,5 @@ t_list			*get_sprites_coords(t_list *map);
 void			sort_sprites(int *order, double *dist, int amount);
 int				create_rgb(int r, int g, int b);
 void			handle_sprites(t_mlx *mlx);
+int				save_screen(t_mlx mlx);
 #endif

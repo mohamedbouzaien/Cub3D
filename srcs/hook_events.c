@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/05 10:37:54 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/18 15:35:31 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/19 15:59:09 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,8 @@ int		main_loop(t_mlx *mlx)
 	handle_sprites(mlx);
 	mlx->params = params;
 	mlx_put_image_to_window(mlx->mlx_ptr, mlx->win, mlx->img.img_ptr, 0, 0);
+	if (!save_screen(*mlx))
+		printf("erreur");
+	close_event(mlx);
 	return (0);
 }
