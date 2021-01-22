@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 14:13:40 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/22 02:51:57 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/22 17:53:55 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,20 +115,20 @@ void	read_map(int fd, char *line, t_mlx *mlx)
 	i = 0;
 	if (mlx->map == NULL && !check_border_line(line, NULL))
 		throw_error("The northern border of the map is incorrect");
-	ft_lstadd_back(&mlx->map, ft_lstnew(line));
+	ft_lstadd_back(&mlx->map, ft_strlstnew(line));
 	while (ft_get_next_line(fd, &line))
 	{
 		if (mlx->map != NULL && !check_internal_line(line, ft_lstlast(mlx->map)->content))
 			throw_error("The map content lines are incorrect");
 		check_direction_flag(line, &mlx->params, i);
 		i++;
-		ft_lstadd_back(&mlx->map, ft_lstnew(line));
+		ft_lstadd_back(&mlx->map, ft_strlstnew(line));
 	}
 	if (ft_strlen(line) > 0)
 	{
 		if (!check_border_line(line, ft_lstlast(mlx->map)->content))
 			throw_error("The southern border of the map is incorrect");
-		ft_lstadd_back(&mlx->map, ft_lstnew(line));
+		ft_lstadd_back(&mlx->map, ft_strlstnew(line));
 	}
 	close(fd);
 }

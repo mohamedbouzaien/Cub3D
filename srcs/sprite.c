@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 23:28:09 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/18 15:27:03 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/22 18:05:47 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_list	*get_sprites_coords(t_list *map)
 				sprite = (t_intvector *)malloc(sizeof(t_intvector) + 1);
 				sprite->x = i;
 				sprite->y = j;
-				ft_lstadd_back(&sprites, ft_lstnew(sprite));
+				ft_lstadd_back(&sprites, ft_vectlstnew(sprite));
 			}
 		}
 		i++;

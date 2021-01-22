@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 12:03:20 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/22 02:45:30 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/22 18:05:33 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@
 # include "../mlx/mlx.h"
 # include "libft.h"
 
-# define KEY_LEFT		123//65361
-# define KEY_RIGHT		124//65363
-# define KEY_DOWN		125//65364
-# define KEY_UP			126//65362
-# define KEY_W			13
-# define KEY_A			0
-# define KEY_S			1
-# define KEY_D			2
-# define KEY_ESC		53
+# define KEY_LEFT		65361//123
+# define KEY_RIGHT		65363//124
+# define KEY_DOWN		65364//125
+# define KEY_UP			65362//126
+# define KEY_W			119//13
+# define KEY_A			97//0
+# define KEY_S			115//1
+# define KEY_D			100//2
+# define KEY_ESC		65307//53
 
 # define NORTH			1
 # define SOUTH			2
@@ -156,4 +156,6 @@ void			handle_sprites(t_mlx *mlx);
 int				save_screen(t_mlx mlx);
 int				check_texture_paths(t_tex tex[6]);
 void			free_char_array(char **char_array);
+t_list			*ft_strlstnew(char *content);
+t_list			*ft_vectlstnew(t_intvector *content);
 #endif
