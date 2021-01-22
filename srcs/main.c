@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:10:46 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/18 14:28:28 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/22 02:05:32 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ t_params	init_params(void)
 {
 	t_params	params;
 
+	params.res.x = 0;
+	params.res.y = 0;
 	params.pos.x = 10;
 	params.pos.y = 11.5;
 	params.dir.x = 0.;
@@ -23,30 +25,59 @@ t_params	init_params(void)
 	params.plane.x = 0.66;
 	params.plane.y = 0;
 	params.cardinal = 0;
+	params.save = 0;
 	return (params);
 }
 
-void		finish_init(t_params *params)
+void		finish_init(t_mlx *mlx)
 {
-	params->zbuffer = (double *)malloc(sizeof(double)\
-						* params->res.x + 1);
+	if (!mlx->params.res.x || !mlx->params.res.y)
+		throw_error("Resolution not found");
+	if (mlx->floor.r == -1 || mlx->ceiling.r == -1)
+		throw_error("Color not found");
+	mlx->params.zbuffer = (double *)malloc(sizeof(double)\
+						* mlx->params.res.x + 1);
+	if (!check_texture_paths(mlx->tex))
+		throw_error("texture path missing");
+	if (mlx->params.cardinal == 0)
+		throw_error("Cardinal error");
+	if (mlx->params.res.x > 1920)
+		mlx->params.res.x = 1920;
+	if (mlx->params.res.y > 1080)
+		mlx->params.res.y = 1080;
+	if (mlx->params.res.x < 848)
+		mlx->params.res.x = 848;
+	if (mlx->params.res.y < 480)
+		mlx->params.res.y = 480;
 }
 
 void		throw_error(char *msg)
 {
 	ft_putstr_fd("Error\n", 0);
 	ft_putstr_fd(msg, 0);
+	//printf("%s\n", msg);
 	exit(1);
 }
 
-int			main(void)
+int			main(int ac, char **av)
 {
 	t_mlx	mlx;
+	int		i;
 
 	mlx.params = init_params();
-	parse_cub("map2.cub", &mlx);
+	mlx.floor.r = -1;
+	mlx.floor.g = -1;
+	mlx.floor.b = -1;
+	mlx.ceiling.r = -1;
+	mlx.ceiling.g = -1;
+	mlx.ceiling.b = -1;
+	mlx.map = NULL;
+	i = 0;
+	while (++i < 6)
+		mlx.tex[i].path = NULL;
+	parse_cub(av[1], &mlx);
 	mlx.mlx_ptr = mlx_init();
-	finish_init(&mlx.params);
+	finish_init(&mlx);
 	mlx.sprites = get_sprites_coords(mlx.map);
 	mlx.win = mlx_new_window(mlx.mlx_ptr, mlx.params.res.x,\
 	mlx.params.res.y, "Wolfstein3D");
@@ -54,11 +85,11 @@ int			main(void)
 	mlx.params.res.y);
 	mlx.img.data = (int *)mlx_get_data_addr(mlx.img.img_ptr, &mlx.img.bpp,\
 	&mlx.img.size_l, &mlx.img.endian);
-	load_textures(&mlx);
+	if (!load_textures(&mlx))
+		throw_error("Incorrect texture path!");
 	mlx_hook(mlx.win, 2, 1L << 0, deal_key, &mlx);
 	mlx_loop_hook(mlx.mlx_ptr, &main_loop, &mlx);
 	mlx_hook(mlx.win, 17, 1L << 17, close_event, &mlx);
 	mlx_loop(mlx.mlx_ptr);
-	//ft_lstclear(&sprites, &free);
 	return (0);
 }

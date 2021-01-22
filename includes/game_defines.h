@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 12:03:20 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/19 15:46:30 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/22 02:45:30 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ typedef struct	s_params
 	double		*zbuffer;
 	int			lineheight;
 	int			cardinal;
+	int			save;
 }				t_params;
 
 typedef struct	s_mlx
@@ -141,7 +142,7 @@ void			walk(t_params *params, double step, int axis, t_list *map);
 void			calculate_params(t_params *params, int count_w);
 t_line			calculate_stripe_borders(t_params *params, int side);
 int				get_pixel_color(t_tex tex, t_intvector pos);
-void			load_textures(t_mlx *mlx);
+int				load_textures(t_mlx *mlx);
 void			parse_cub(char *file_path, t_mlx *mlx);
 void			throw_error(char *msg);
 int				is_dir_flag(char c);
@@ -153,4 +154,6 @@ void			sort_sprites(int *order, double *dist, int amount);
 int				create_rgb(int r, int g, int b);
 void			handle_sprites(t_mlx *mlx);
 int				save_screen(t_mlx mlx);
+int				check_texture_paths(t_tex tex[6]);
+void			free_char_array(char **char_array);
 #endif

@@ -6,13 +6,13 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 17:23:50 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/17 23:14:58 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/22 00:55:03 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/game_defines.h"
 
-void	load_textures(t_mlx *mlx)
+int		load_textures(t_mlx *mlx)
 {
 	int	i;
 
@@ -24,7 +24,11 @@ void	load_textures(t_mlx *mlx)
 			mlx->tex[i].path, &mlx->tex[i].width, &mlx->tex[i].height)))
 				mlx->tex[i].tex_ptr = mlx_get_data_addr(mlx->tex[i].data,\
 				&mlx->tex[i].bpp, &mlx->tex[i].size_l, &mlx->tex[i].endian);
+			else
+				return (0);
+			
 	}
+	return (1);
 }
 
 int		get_pixel_color(t_tex tex, t_intvector pos)
@@ -47,4 +51,18 @@ void	clear_textures(t_mlx *mlx)
 		mlx->tex[i].data = NULL;
 		mlx->tex[i].tex_ptr = NULL;
 	}
+}
+
+int		check_texture_paths(t_tex tex[6])
+{
+	int	i;
+
+	i = 1;
+	while (i < 6)
+	{
+		if (tex[i].path == NULL)
+			return (0);
+		i++;
+	}
+	return (1);
 }

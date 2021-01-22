@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/03 14:55:29 by mbouzaie          #+#    #+#             */
-/*   Updated: 2020/10/16 12:39:47 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/21 17:17:35 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,4 +97,6 @@ int					ft_chrloc(const char *str, int ch);
 char				*ft_uitoa(uintmax_t n, unsigned int base);
 char				*ft_strncpy(char *dst, const char *src, size_t len);
 int					ft_get_next_line(const int fd, char **line);
+int 				ft_char_in_set(char c, char const *set);
+int     			ft_str_in_set(char *str, const char *set);
 #endif

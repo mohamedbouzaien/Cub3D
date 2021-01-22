@@ -6,7 +6,7 @@
 #    By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 15:10:22 by mbouzaie          #+#    #+#              #
-#    Updated: 2020/10/16 12:41:35 by mbouzaie         ###   ########.fr        #
+#    Updated: 2021/01/21 17:19:06 by mbouzaie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,7 +71,6 @@ SRC = 	ft_memset.c \
 		ft_memdel.c \
 		ft_uitoa.c \
 		ft_strncpy.c \
-		ft_get_next_line.c \
 
 SRC_B =	ft_lstnew.c \
 		ft_lstadd_front.c \
@@ -83,6 +82,9 @@ SRC_B =	ft_lstnew.c \
 		ft_lstiter.c \
 		ft_lstmap.c \
 		ft_lstfind_index.c \
+		ft_get_next_line.c \
+		ft_char_in_set.c \
+		ft_str_in_set.c
 
 OBJ = ${SRC:.c=.o}
 

@@ -6,7 +6,7 @@
 #    By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/12 23:24:12 by mbouzaie          #+#    #+#              #
-#    Updated: 2021/01/19 15:46:53 by mbouzaie         ###   ########.fr        #
+#    Updated: 2021/01/20 17:38:44 by mbouzaie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ LIBS			= $(CUB3D_H) $(LIBFT_H) -Lmlx -lmlx -framework OpenGL -framework AppKit -
 MLX				= libmlx.a
 
 NAME			= libcub3d.a
-GAME_NAME		= cub3d
+GAME_NAME		= cub3D
 
 
 all:			$(OBJ_DIR) $(GAME_NAME)
