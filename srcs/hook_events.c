@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/05 10:37:54 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/20 00:22:22 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/22 15:37:40 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int		close_event(void *param)
 	t_mlx *mlx;
 
 	mlx = (t_mlx *)param;
+	ft_lstclear(&mlx->map, free);
 	if (mlx->img.img_ptr)
 		mlx_destroy_image(mlx->mlx_ptr, mlx->img.img_ptr);
 	if (mlx->win)
