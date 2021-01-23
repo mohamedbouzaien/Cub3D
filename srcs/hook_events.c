@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/05 10:37:54 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/23 00:28:39 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/23 01:26:52 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,16 @@ int		close_event(void *param)
 	free(mlx->params.zbuffer);
 	mlx->params.zbuffer = NULL;
 	if (mlx->img.img_ptr)
+	{
 		mlx_destroy_image(mlx->mlx_ptr, mlx->img.img_ptr);
+		mlx->img.img_ptr = NULL;
+		mlx->img.data = NULL;
+	}
 	if (mlx->win)
+	{
 		mlx_destroy_window(mlx->mlx_ptr, mlx->win);
+		mlx->win = NULL;
+	}	
 	clear_textures(mlx);
 	exit(0);
 	return (0);
