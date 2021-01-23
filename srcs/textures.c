@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 17:23:50 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/22 00:55:03 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/23 00:32:07 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,14 @@ void	clear_textures(t_mlx *mlx)
 	i = 0;
 	while (++i <= SPRITE)
 	{
-		mlx_destroy_image(mlx->mlx_ptr, mlx->tex[i].data);
-		mlx->tex[i].data = NULL;
-		mlx->tex[i].tex_ptr = NULL;
+		if (mlx->tex[i].data)
+		{
+			mlx_destroy_image(mlx->mlx_ptr, mlx->tex[i].data);
+			free(mlx->tex[i].path);
+			mlx->tex[i].path = NULL;
+			mlx->tex[i].data = NULL;
+			mlx->tex[i].tex_ptr = NULL;
+		}
 	}
 }
 

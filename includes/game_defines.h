@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 12:03:20 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/22 18:05:33 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/22 23:41:08 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ t_line			calculate_stripe_borders(t_params *params, int side);
 int				get_pixel_color(t_tex tex, t_intvector pos);
 int				load_textures(t_mlx *mlx);
 void			parse_cub(char *file_path, t_mlx *mlx);
-void			throw_error(char *msg);
+void			throw_error(t_mlx *mlx, char *msg);
 int				is_dir_flag(char c);
 void			clear_window(t_mlx *mlx);
 void			clear_textures(t_mlx *mlx);

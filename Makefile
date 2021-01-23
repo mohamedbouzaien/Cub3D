@@ -6,7 +6,7 @@
 #    By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/12 23:24:12 by mbouzaie          #+#    #+#              #
-#    Updated: 2021/01/22 17:58:35 by mbouzaie         ###   ########.fr        #
+#    Updated: 2021/01/23 00:43:38 by mbouzaie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ OBJS			= $(addprefix $(OBJ_DIR), $(OFILE))
 
 CC				= gcc
 RM				= rm -f
-CFLAGS			= -fsanitize=address -g -o # -O3 -Wall -Wextra -Werror#
+CFLAGS			= -g -o #-fsanitize=address -O3 -Wall -Wextra -Werror#
 				 
 LIBS			= $(CUB3D_H) $(LIBFT_H) -Lmlx -lmlx -lXext -lX11 -lm -lbsd # -framework OpenGL -framework AppKit -lm
 MLX				= libmlx.a
