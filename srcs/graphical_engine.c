@@ -6,13 +6,13 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 16:32:59 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/18 14:30:27 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/23 12:57:35 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/game_defines.h"
 
-void		calculate_params(t_params *params, int count_w)
+void	calculate_params(t_params *params, int count_w)
 {
 	double	camera_x;
 
@@ -63,10 +63,9 @@ void	calculate_step_sidedist(t_params *params)
 	}
 }
 
-int		digital_differential_alg(t_params *params, t_list *map)
+void	digital_differential_alg(t_params *params, t_list *map)
 {
-	int hit;
-	int side;
+	int		hit;
 	char	*map_line;
 
 	hit = 0;
@@ -76,35 +75,34 @@ int		digital_differential_alg(t_params *params, t_list *map)
 		{
 			params->sidedist.x += params->deltadist.x;
 			params->posmap.x += params->step.x;
-			side = 0;
+			params->side = 0;
 		}
 		else
 		{
 			params->sidedist.y += params->deltadist.y;
 			params->posmap.y += params->step.y;
-			side = 1;
+			params->side = 1;
 		}
 		map_line = (char *)ft_lstfind_index(map, params->posmap.x)->content;
-		if (map_line[params->posmap.y] != '0' && !is_dir_flag(map_line[params->posmap.y]) && map_line[params->posmap.y] != '2')
+		if (map_line[params->posmap.y] != '0' && !is_dir_flag(\
+		map_line[params->posmap.y]) && map_line[params->posmap.y] != '2')
 			hit = 1;
 	}
-	return (side);
 }
 
-t_line	calculate_stripe_borders(t_params *params, int side)
+void	calculate_stripe_borders(t_params *params, int side)
 {
-	t_line	line;
-
 	if (side == 0)
-		params->perpwalldist = (params->posmap.x - params->pos.x + (1 - params->step.x) / 2) / params->raydir.x;
+		params->perpwalldist = (params->posmap.x - params->pos.x +\
+		(1 - params->step.x) / 2) / params->raydir.x;
 	else
-		params->perpwalldist = (params->posmap.y - params->pos.y + (1 - params->step.y) / 2) / params->raydir.y;
-	params->lineheight = (int) (params->res.y / params->perpwalldist);
-	line.start = -params->lineheight / 2 + params->res.y / 2;
-	if (line.start < 0)
-		line.start = 0;
-	line.end = params->lineheight / 2 + params->res.y / 2;
-	if (line.end >= params->res.y)
-		line.end = params->res.y - 1;
-	return (line);
+		params->perpwalldist = (params->posmap.y - params->pos.y +\
+		(1 - params->step.y) / 2) / params->raydir.y;
+	params->lheight = (int)(params->res.y / params->perpwalldist);
+	params->line.start = -params->lheight / 2 + params->res.y / 2;
+	if (params->line.start < 0)
+		params->line.start = 0;
+	params->line.end = params->lheight / 2 + params->res.y / 2;
+	if (params->line.end >= params->res.y)
+		params->line.end = params->res.y - 1;
 }

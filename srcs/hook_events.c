@@ -6,13 +6,13 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/05 10:37:54 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/23 01:26:52 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/23 13:18:15 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/game_defines.h"
 
-int		close_event(void *param)
+int				close_event(void *param)
 {
 	t_mlx *mlx;
 
@@ -31,13 +31,13 @@ int		close_event(void *param)
 	{
 		mlx_destroy_window(mlx->mlx_ptr, mlx->win);
 		mlx->win = NULL;
-	}	
+	}
 	clear_textures(mlx);
 	exit(0);
 	return (0);
 }
 
-int		deal_key(int key, void *param)
+int				deal_key(int key, void *param)
 {
 	t_mlx	*mlx;
 
@@ -49,75 +49,87 @@ int		deal_key(int key, void *param)
 	if (key == KEY_W)
 		walk(&mlx->params, SPEED_MOV, AXIS_VERT, mlx->map);
 	if (key == KEY_S)
-		walk(&mlx->params, -SPEED_MOV, AXIS_VERT,mlx->map);
+		walk(&mlx->params, -SPEED_MOV, AXIS_VERT, mlx->map);
 	if (key == KEY_D)
 		walk(&mlx->params, SPEED_MOV, AXIS_HORI, mlx->map);
 	if (key == KEY_A)
-		walk(&mlx->params, -SPEED_MOV, AXIS_HORI,mlx->map);
+		walk(&mlx->params, -SPEED_MOV, AXIS_HORI, mlx->map);
 	if (key == KEY_ESC)
 		close_event(param);
 	return (0);
 }
 
-int		main_loop(t_mlx *mlx)
+static	void	draw_line(t_mlx *mlx, t_params *params, int card, int countx)
 {
-	int			side;
-	int			color;
-	int			cardinal;
-	t_line		line;
-	t_params	params;
-	double		wallX;
-	t_intvector	texPos;
-	t_intvector	count;
 	double		step;
-	double		texPosd;
+	double		texposd;
+	int			county;
 
-	count.x = -1;
-	params = mlx->params;
-    while (++count.x < params.res.x)
-	{
-		calculate_params(&params, count.x);
-		calculate_step_sidedist(&params);
-		side = digital_differential_alg(&params, mlx->map);
-		line = calculate_stripe_borders(&params, side);
-		count.y = -1;
-		if (side == 0)
-			wallX = params.pos.y + params.perpwalldist * params.raydir.y;
+	county = -1;
+	step = 1.0 * mlx->tex[card].height / params->lheight;
+	texposd = (params->line.start - params->res.y / 2 +\
+	params->lheight / 2) * step;
+	while (++county < params->res.y)
+		if (county > params->line.end)
+			mlx->img.data[county * params->res.x + countx] =\
+			create_rgb(mlx->floor.r, mlx->floor.g, mlx->floor.b);
+		else if (county < params->line.start)
+			mlx->img.data[county * params->res.x + countx] =\
+			create_rgb(mlx->ceiling.r, mlx->ceiling.g, mlx->ceiling.b);
 		else
-			wallX = params.pos.x + params.perpwalldist * params.raydir.x;
-		wallX -= floor(wallX);
-		if (side == 0 && params.raydir.x > 0)
-			cardinal = SOUTH;
-		if (side == 0 && params.raydir.x < 0)
-			cardinal = NORTH;
-		if (side == 1 && params.raydir.y > 0)
-			cardinal = EAST;
-		if (side == 1 && params.raydir.y < 0)
-			cardinal = WEST;
-		texPos.x = (int)(wallX * (double)mlx->tex[cardinal].width);
-		if (side == 0 && params.raydir.x > 0)
-			texPos.x = mlx->tex[cardinal].width - texPos.x - 1;
-		if (side == 1 && params.raydir.y < 0)
-			texPos.x = mlx->tex[cardinal].width - texPos.x - 1;
-		step = 1.0 * mlx->tex[cardinal].height / params.lineheight;
-		texPosd = (line.start - params.res.y / 2 + params.lineheight / 2) * step;
-		while (++count.y < params.res.y)
-			if (count.y > line.end)
-                mlx->img.data[count.y * params.res.x + count.x] = create_rgb(mlx->floor.r, mlx->floor.g, mlx->floor.b);
-			else if (count.y < line.start)
-				mlx->img.data[count.y * params.res.x + count.x] = create_rgb(mlx->ceiling.r, mlx->ceiling.g, mlx->ceiling.b);
-            else
-			{
-				texPos.y = (int)texPosd & (mlx->tex[cardinal].height - 1);
-				texPosd += step;
-                mlx->img.data[count.y * params.res.x + count.x] = get_pixel_color(mlx->tex[cardinal], texPos);
-			}
-		params.zbuffer[count.x] = params.perpwalldist;
+		{
+			params->texpos.y = (int)texposd & (mlx->tex[card].height - 1);
+			texposd += step;
+			mlx->img.data[county * params->res.x + countx] =\
+			get_pixel_color(mlx->tex[card], params->texpos);
+		}
+}
+
+static	int		init_side_card(t_mlx *mlx, t_params *params)
+{
+	int	card;
+
+	if (params->side == 0)
+		params->wallx = params->pos.y + params->perpwalldist * params->raydir.y;
+	else
+		params->wallx = params->pos.x + params->perpwalldist * params->raydir.x;
+	params->wallx -= floor(params->wallx);
+	if (params->side == 0 && params->raydir.x > 0)
+		card = SOUTH;
+	if (params->side == 0 && params->raydir.x < 0)
+		card = NORTH;
+	if (params->side == 1 && params->raydir.y > 0)
+		card = EAST;
+	if (params->side == 1 && params->raydir.y < 0)
+		card = WEST;
+	params->texpos.x = (int)(params->wallx * (double)mlx->tex[card].width);
+	if (params->side == 0 && params->raydir.x > 0)
+		params->texpos.x = mlx->tex[card].width - params->texpos.x - 1;
+	if (params->side == 1 && params->raydir.y < 0)
+		params->texpos.x = mlx->tex[card].width - params->texpos.x - 1;
+	return (card);
+}
+
+int				main_loop(t_mlx *mlx)
+{
+	int			color;
+	int			card;
+	int			countx;
+
+	countx = -1;
+	while (++countx < mlx->params.res.x)
+	{
+		calculate_params(&mlx->params, countx);
+		calculate_step_sidedist(&mlx->params);
+		digital_differential_alg(&mlx->params, mlx->map);
+		calculate_stripe_borders(&mlx->params, mlx->params.side);
+		card = init_side_card(mlx, &mlx->params);
+		draw_line(mlx, &mlx->params, card, countx);
+		mlx->params.zbuffer[countx] = mlx->params.perpwalldist;
 	}
 	handle_sprites(mlx);
-	mlx->params = params;
 	mlx_put_image_to_window(mlx->mlx_ptr, mlx->win, mlx->img.img_ptr, 0, 0);
-	if (params.save)
+	if (mlx->params.save)
 	{
 		save_screen(*mlx);
 		close_event(mlx);

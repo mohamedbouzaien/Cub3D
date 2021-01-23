@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 17:23:50 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/23 00:32:07 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/23 02:50:50 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int		load_textures(t_mlx *mlx)
 				&mlx->tex[i].bpp, &mlx->tex[i].size_l, &mlx->tex[i].endian);
 			else
 				return (0);
-			
 	}
 	return (1);
 }

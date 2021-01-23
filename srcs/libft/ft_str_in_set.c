@@ -6,13 +6,13 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 17:11:35 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/21 17:18:00 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/23 15:56:08 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/libft.h"
 
-int     ft_str_in_set(char *str, const char *set)
+int		ft_str_in_set(char *str, const char *set)
 {
 	int	i;
 

@@ -6,13 +6,13 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 16:32:50 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/20 22:50:53 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/23 13:47:37 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/game_defines.h"
 
-void		write_header(t_mlx mlx, int fd)
+static	void	write_header(t_mlx mlx, int fd)
 {
 	int	tmp;
 
@@ -40,7 +40,7 @@ void		write_header(t_mlx mlx, int fd)
 	write(fd, &tmp, 4);
 }
 
-static int	write_data(int fd, t_mlx mlx)
+static int		write_data(int fd, t_mlx mlx)
 {
 	int	i;
 	int	j;
@@ -51,12 +51,12 @@ static int	write_data(int fd, t_mlx mlx)
 		j = -1;
 		while (++j < mlx.params.res.x)
 			if (write(fd, &mlx.img.data[i * mlx.img.size_l / 4 + j], 4) < 0)
-				return(0);
+				return (0);
 	}
 	return (1);
 }
 
-int			save_screen(t_mlx mlx)
+int				save_screen(t_mlx mlx)
 {
 	int		fd;
 
