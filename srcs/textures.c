@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 17:23:50 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/23 02:50:50 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/24 22:39:30 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,16 @@ int		load_textures(t_mlx *mlx)
 	while (++i <= SPRITE)
 	{
 		if (mlx->tex[i].path != NULL)
+		{
 			if ((mlx->tex[i].data = mlx_xpm_file_to_image(mlx->mlx_ptr,\
 			mlx->tex[i].path, &mlx->tex[i].width, &mlx->tex[i].height)))
 				mlx->tex[i].tex_ptr = mlx_get_data_addr(mlx->tex[i].data,\
 				&mlx->tex[i].bpp, &mlx->tex[i].size_l, &mlx->tex[i].endian);
 			else
 				return (0);
+		}
+		else
+			return (0);
 	}
 	return (1);
 }
@@ -62,7 +66,7 @@ int		check_texture_paths(t_tex tex[6])
 	int	i;
 
 	i = 1;
-	while (i < 6)
+	while (i <= SPRITE)
 	{
 		if (tex[i].path == NULL)
 			return (0);

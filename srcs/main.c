@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 18:10:46 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/23 13:46:42 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/24 22:40:07 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ static	void	launch_game(t_mlx *mlx)
 	mlx->params.res.y);
 	mlx->img.data = (int *)mlx_get_data_addr(mlx->img.img_ptr, &mlx->img.bpp,\
 	&mlx->img.size_l, &mlx->img.endian);
-	if (!load_textures(&mlx))
-		throw_error(&mlx, "Incorrect texture path!");
+	if (!load_textures(mlx))
+		throw_error(mlx, "Incorrect texture path!");
 }
 
 int				main(int ac, char **av)
