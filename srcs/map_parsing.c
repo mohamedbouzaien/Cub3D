@@ -6,7 +6,7 @@
 /*   By: mbouzaie <mbouzaie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/14 14:13:40 by mbouzaie          #+#    #+#             */
-/*   Updated: 2021/01/24 21:58:30 by mbouzaie         ###   ########.fr       */
+/*   Updated: 2021/01/26 13:00:02 by mbouzaie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ void	parse_cub(char *file_path, t_mlx *mlx)
 	int		fd;
 	char	*line;
 
-	fd = open(file_path, O_RDONLY);
+	if (!(fd = open(file_path, O_RDONLY)))
+		throw_error(mlx, "File does not exist");
 	while ((ft_get_next_line(fd, &line) >= 0) && !check_border_line(line, NULL))
 	{
 		if (line[0] == 'R' && line[1] == ' ')
